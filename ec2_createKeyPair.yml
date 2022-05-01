@@ -1,0 +1,39 @@
+---
+- name: create key pair for EC2
+  hosts: localhost
+  gather_facts: false
+  vars_files: 
+    - credentials.yml
+  vars:
+    region: us-east-1
+    keyname: aap-mesh-ec2
+
+  tasks:
+    - name: show user used by this play
+      debug:
+        var: ansible_user_id
+
+    - name: create key pair
+      ec2_key:
+        region: "{{ region }}"
+        name: "{{ keyname }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+      register: mykey
+      connection: local
+
+    - name: Print key pair 
+      debug: var=mykey.key.private_key
+
+    - name: Write to file 
+      copy: 
+        content: "{{ mykey.key.private_key }}" 
+        dest: "/home/{{ ansible_user_id }}/.ssh/{{ keyname }}.pem"
+        mode: 0600
+        follow: no
+      when: mykey.changed
+      ignore_errors: true
+      remote_user: bforrest
+      vars:
+        ansible_user_id: bforrest
+      delegate_to: rhel8vm1
