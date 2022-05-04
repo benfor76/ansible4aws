@@ -47,9 +47,13 @@
         group_id: "{{ mysg }}"
         vpc_subnet_id: "{{ mysubnet }}"
         key_name: aap-mesh-ec2
-        count_tag:
-          Name: AAPLab 
-        exact_count: 3
+        #count_tag:
+        #  Name: AAPLab 
+        #exact_count: 3
+        count: 3
+        instance_tags:
+          owner: Ben
+          stack: lab
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
       register: ec2

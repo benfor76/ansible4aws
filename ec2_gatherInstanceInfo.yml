@@ -26,17 +26,39 @@
       debug:
         var: ec2_info
     
+    - name: Store EC2 instance fact
+      set_fact:
+        instanceIDs: "{{ ec2_info.instances|map(attribute='instance_id') | join(',')}}"
+
     #- name: Store EC2 instance fact
     #  set_fact:
-    #    instanceIDs: "{{ ec2_info.instances|map(attribute='instance_id') | join(',')}}"
+    #    instanceIDs: "{{ ec2_info.instances|map(attribute='instance_id')|list }}"
+
+    - name: Retrieve all tags on an instance
+      amazon.aws.ec2_tag_info:
+        region: us-east-1
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        resource: "{{ item }}"
+      loop: "{{ instanceIDs.split(',') }}"
+      register: instance_tags
+    
+    #- name: print instance ids 
+    #  debug:
+    #    var: instanceIDs.split(',')
+      
+
+    #- name: print instance tag info
+    #  debug:
+    #    var: instance_tags
 
     #- name: Split instancelist into a list
     #  set_fact:
     #    list: "{{ instanceIDs.split(',') }}"
 
-    - name: Store EC2 instance fact
-      set_fact:
-        instanceinfo: "{{ ec2_info.instances|map(attribute='instance_id')|list }}"
+#    - name: Store EC2 instance fact
+#      set_fact:
+#        instanceinfo: "{{ ec2_info.instances|map(attribute='instance_id')|list }}"
 
 #    - name: print EC2 information 
 #      debug:
@@ -46,6 +68,18 @@
 #      debug:
 #        var: list
 
-    - name: print EC2 information 
-      debug:
-        var: instanceinfo
+#    - name: print EC2 information 
+#      debug:
+#        var: instanceinfo
+
+#    - name: Retrieve all tags on a VPC
+#      amazon.aws.ec2_tag_info:
+#        region: "{{ region }}"
+#        aws_access_key: "{{ aws_access_key }}"
+#        aws_secret_key: "{{ aws_secret_key }}"
+#        resource: vpc-064112626cfa1f40a
+#      register: vpc_tags
+
+#    - name: Print tags 
+#      debug:
+#        var: vpc_tags

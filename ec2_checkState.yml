@@ -1,0 +1,34 @@
+---
+
+- name: check the state of EC2 Lab instances
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - amazon.aws
+    - ansible.builtin
+    - community.general
+
+  vars_files: 
+    - credentials.yml
+  vars:
+    region: us-east-1
+
+  tasks:
+
+    - name: Check EC2 instance status
+      ec2_instance_info:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        filters:
+          instance-state-name: [ "shutting-down", "stopping", "stopped" , "pending", "running"]
+      register: getStatus
+      tags: status
+
+
+    - name: Print instance status
+      debug:
+        var: item
+      loop: "{{ getStatus.instances | json_query('[*].state') }}"
+      tags: printstatus

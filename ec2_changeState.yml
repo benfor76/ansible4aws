@@ -1,0 +1,38 @@
+---
+
+- name: change EC2 instance state of Lab enviornment 
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - amazon.aws
+    - ansible.builtin
+    - community.general
+
+  vars_files: 
+    - credentials.yml
+  vars:
+    #Your region
+    region: us-east-1
+
+  tasks:
+
+    - name: Start my lab EC2 instances
+      ec2:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        instance_tags:
+          stack: lab
+        state: running
+      tags: start
+
+    - name: Stop my lab EC2 instances
+      ec2:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        instance_tags:
+          stack: lab
+        state: stopped
+      tags: stop
