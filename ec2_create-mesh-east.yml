@@ -42,11 +42,10 @@
       ec2_instance:
         instance_type: t2.xlarge
         image_id: ami-0b0af3577fe5e3532
-        #count: 3
+        count: 3
         region: "{{ region }}"
-        network:
-          security_group: "{{ mysg }}"
-          vpc_subnet_id: "{{ mysubnet }}"
+        security_groups: "{{ mysg }}"
+        vpc_subnet_id: "{{ mysubnet }}"
         key_name: aap-mesh-ec2
         state: present
         wait: yes
