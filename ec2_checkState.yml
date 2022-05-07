@@ -7,7 +7,7 @@
   collections:
     - amazon.aws
     - ansible.builtin
-    - community.general
+    #- community.general
 
   #vars_files: 
   #  - credentials.yml
