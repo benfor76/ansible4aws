@@ -42,7 +42,7 @@
       ec2_instance:
         instance_type: t2.xlarge
         image_id: ami-0b0af3577fe5e3532
-        count: 3
+        #count: 3
         region: "{{ region }}"
         network:
           security_group: "{{ mysg }}"
