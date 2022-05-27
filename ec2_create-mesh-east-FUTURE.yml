@@ -42,6 +42,7 @@
     - name: print mysubnet
       debug: 
         var: mysubnet
+
     - name: EC2 basic provisioning
       ec2_instance:
         instance_type: t2.xlarge
