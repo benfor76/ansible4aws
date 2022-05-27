@@ -39,32 +39,30 @@
         mysg: "{{ sginfo.security_groups|map(attribute='group_id')|list }}"
 
     - name: EC2 basic provisioning
-      ec2:
-        image: ami-0b0af3577fe5e3532
-        wait: yes
+      ec2_instance:
         instance_type: t2.xlarge
+        image_id: ami-0b0af3577fe5e3532
+        count: 3
         region: "{{ region }}"
-        group_id: "{{ mysg }}"
+        security_groups: "{{ mysg }}"
         vpc_subnet_id: "{{ mysubnet }}"
         key_name: aap-mesh-ec2
-        #count_tag:
-        #  Name: AAPLab 
-        #exact_count: 3
-        count: 3
-        instance_tags:
+        state: present
+        wait: yes
+        tags:
           owner: Ben
-          stack: lab
+          stack: customerDemo
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
       register: ec2
 
-    - name: Create new volume using SSD storage
-      ec2_vol:
-        aws_access_key: "{{ aws_access_key }}"
-        aws_secret_key: "{{ aws_secret_key }}"
-        region: "{{ region }}"
-        instance: "{{ item.id }}"
-        volume_size: 100
-        volume_type: gp2
-      loop: "{{ ec2.instances }}"
-      register: ec2_vol
+    #- name: Create new volume using SSD storage
+    #  ec2_vol:
+    #    aws_access_key: "{{ aws_access_key }}"
+    #    aws_secret_key: "{{ aws_secret_key }}"
+    #    region: "{{ region }}"
+    #    instance: "{{ item.id }}"
+    #    volume_size: 100
+    #    volume_type: gp2
+    #  loop: "{{ ec2.instances }}"
+    #  register: ec2_vol

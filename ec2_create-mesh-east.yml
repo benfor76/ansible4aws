@@ -11,7 +11,8 @@
     - credentials.yml
   vars:
     #Your region
-    region: us-east-1
+    #region: us-east-1
+    region: eu-west-2
     sgname: AA-Lab
   tasks:
 
@@ -39,30 +40,36 @@
         mysg: "{{ sginfo.security_groups|map(attribute='group_id')|list }}"
 
     - name: EC2 basic provisioning
-      ec2_instance:
+      ec2:
         instance_type: t2.xlarge
-        image_id: ami-0b0af3577fe5e3532
+        #us-east-1
+        #image: ami-0b0af3577fe5e3532
+        # eu-west-2 
+        image: ami-0ad8ecac8af5fc52b
         count: 3
         region: "{{ region }}"
-        security_groups: "{{ mysg }}"
+        group_id: "{{ mysg }}"
         vpc_subnet_id: "{{ mysubnet }}"
-        key_name: aap-mesh-ec2
-        state: present
+        #us-east-1
+        #key_name: aap-mesh-ec2
+        #EU-London
+        key_name: aap-mesh-ec2-eu
         wait: yes
-        tags:
+        #state: present
+        instance_tags:
           owner: Ben
           stack: lab
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
       register: ec2
 
-    #- name: Create new volume using SSD storage
-    #  ec2_vol:
-    #    aws_access_key: "{{ aws_access_key }}"
-    #    aws_secret_key: "{{ aws_secret_key }}"
-    #    region: "{{ region }}"
-    #    instance: "{{ item.id }}"
-    #    volume_size: 100
-    #    volume_type: gp2
-    #  loop: "{{ ec2.instances }}"
-    #  register: ec2_vol
+    - name: Create new volume using SSD storage
+      ec2_vol:
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        region: "{{ region }}"
+        instance: "{{ item.id }}"
+        volume_size: 100
+        volume_type: gp2
+      loop: "{{ ec2.instances }}"
+      register: ec2_vol

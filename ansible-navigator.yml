@@ -10,7 +10,9 @@ ansible-navigator:
     enviornment-variables:
       set:
         ANSIBLE_CONFIG: ansible.cfg
-    image: registry.redhat.io/ansible-automation-platform-21/ee-29-rhel8
+    image: registry.redhat.io/multi-use-ee
+    pull-policy: missing
+    #registry.redhat.io/ansible-automation-platform-21/ee-29-rhel8
     #- registry.redhat.io/ansible-automation-platform-21/ee-supported-rhel8:latest
 
   logging:

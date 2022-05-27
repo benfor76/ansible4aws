@@ -7,10 +7,10 @@
   collections:
     - amazon.aws
     - ansible.builtin
-    #- community.general
+    - community.general
 
-  #vars_files: 
-  #  - credentials.yml
+  vars_files: 
+    - credentials.yml
   vars:
     region: us-east-1
 
@@ -19,8 +19,8 @@
     - name: Check EC2 instance status
       ec2_instance_info:
         region: "{{ region }}"
-        #aws_access_key: "{{ aws_access_key }}"
-        #aws_secret_key: "{{ aws_secret_key }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
         filters:
           instance-state-name: [ "shutting-down", "stopping", "stopped" , "pending", "running"]
       register: getStatus
