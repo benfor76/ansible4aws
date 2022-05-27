@@ -42,24 +42,24 @@
     - name: print mysubnet
       debug: 
         var: mysubnet
-    #- name: EC2 basic provisioning
-    #  ec2_instance:
-    #    instance_type: t2.xlarge
-    #    image_id: ami-0b0af3577fe5e3532
+    - name: EC2 basic provisioning
+      ec2_instance:
+        instance_type: t2.xlarge
+        image_id: ami-0b0af3577fe5e3532
         #count: 3
-    #    count: "{{ how_many }}"
-    #    region: "{{ region }}"
-    #    security_groups: "{{ mysg }}"
-    #    vpc_subnet_id: "{{ mysubnet }}"
-    #    key_name: aap-mesh-ec2
-    #    state: present
-    #    wait: yes
-    #    tags:
-    #      owner: Ben
-    #      stack: customerDemo
-    #    aws_access_key: "{{ aws_access_key }}"
-    #    aws_secret_key: "{{ aws_secret_key }}"
-    #  register: ec2
+        count: "{{ how_many }}"
+        region: "{{ region }}"
+        security_groups: "{{ mysg }}"
+        vpc_subnet_id: "{{ mysubnet }}"
+        key_name: aap-mesh-ec2
+        state: present
+        wait: yes
+        tags:
+          owner: Ben
+          stack: customerDemo
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+      register: ec2
 
     #- name: Create new volume using SSD storage
     #  ec2_vol:
