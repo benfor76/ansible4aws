@@ -53,7 +53,8 @@
         region: "{{ region }}"
         security_groups: "{{ mysg }}"
         vpc_subnet_id: "{{ mysubnet }}"
-        key_name: aap-mesh-ec2
+        #key_name: aap-mesh-ec2
+        key_name: aap-mesh-ec2-eu
         state: present
         wait: yes
         tags:
