@@ -23,7 +23,8 @@
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         instance_tags:
-          stack: lab
+          #stack: lab
+          stack: "{{ which_env }}"
         state: running
       tags: start
 
