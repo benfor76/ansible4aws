@@ -46,7 +46,7 @@
         #image: ami-0b0af3577fe5e3532
         # eu-west-2 
         image: ami-0ad8ecac8af5fc52b
-        count: 3
+        count: 1
         region: "{{ region }}"
         group_id: "{{ mysg }}"
         vpc_subnet_id: "{{ mysubnet }}"
