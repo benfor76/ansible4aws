@@ -18,7 +18,7 @@
   tasks:
 
     - name: Start my lab EC2 instances
-      ec2:
+      ec2_instance:
         region: "{{ region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
@@ -29,7 +29,7 @@
       tags: start
 
     - name: Stop my lab EC2 instances
-      ec2:
+      ec2_instance:
         region: "{{ region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
