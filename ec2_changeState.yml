@@ -33,8 +33,7 @@
         region: "{{ region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
-        filters:
-          stack: "{{ which_env }}"
-          #stack: lab
         state: stopped
+        tags:
+          stack: lab
       tags: stop
