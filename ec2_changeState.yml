@@ -34,8 +34,8 @@
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         filters:
-        tag:
+          tag:
           #stack: lab
-          stack: "{{ which_env }}"
+            stack: "{{ which_env }}"
         state: stopped
       tags: stop
