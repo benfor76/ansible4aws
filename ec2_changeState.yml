@@ -19,7 +19,7 @@
 
     - name: gather running instance information
       ec2_instance_info:
-        region: "{{ aws_region }}"
+        region: "{{ region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         uptime: 1
