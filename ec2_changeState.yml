@@ -26,7 +26,7 @@
         #uptime: 1
         filters:
           #"tag:stack": "{{ which_env }}"
-          "tag:stack": "customerDemo"
+          #"tag:stack": "customerDemo"
           instance-state-name: [ "running" ]
       register: get_status
 
