@@ -29,7 +29,7 @@
           #"tag:stack": "customerDemo"
           instance-state-name: [ "running" ]
       register: get_status
-      tag: gather
+      tags: gather
 
     - name: Print facts
       debug:
