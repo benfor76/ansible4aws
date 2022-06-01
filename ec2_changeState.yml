@@ -17,23 +17,37 @@
 
   tasks:
 
-    - name: Start my lab EC2 instances
-      ec2_instance:
-        region: "{{ region }}"
-        aws_access_key: "{{ aws_access_key }}"
-        aws_secret_key: "{{ aws_secret_key }}"
+    - name: gather running instance information
+      amazon.aws.ec2_instance_info:
+        region: "{{ aws_region }}"
+        uptime: 1
         filters:
-          #stack: lab
-          stack: "{{ which_env }}"
-        state: running
-      tags: start
+          "tag:stack": "{{ which_env }}"
+          instance-state-name: [ "running" ]
+      register: ec2_instance_facts
 
-    - name: Stop my lab EC2 instances
-      ec2_instance:
-        region: "{{ region }}"
-        aws_access_key: "{{ aws_access_key }}"
-        aws_secret_key: "{{ aws_secret_key }}"
-        state: stopped
-        tags:
-          stack: lab
-      tags: stop
+    - name: print fact
+      debug:
+        var: ec2_instance_facts
+
+
+    #- name: Start my lab EC2 instances
+    #  ec2_instance:
+    #    region: "{{ region }}"
+    #    aws_access_key: "{{ aws_access_key }}"
+    #    aws_secret_key: "{{ aws_secret_key }}"
+    #    filters:
+    #      #stack: lab
+    #      stack: "{{ which_env }}"
+    #    state: running
+    #  tags: start
+
+    #- name: Stop my lab EC2 instances
+    #  ec2_instance:
+    #    region: "{{ region }}"
+    #    aws_access_key: "{{ aws_access_key }}"
+    #    aws_secret_key: "{{ aws_secret_key }}"
+    #    state: stopped
+    #    tags:
+    #      stack: "{{ which_env }}"
+    #  tags: stop
