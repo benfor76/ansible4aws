@@ -29,7 +29,7 @@
           instance-state-name: [ "running" ]
       register: ec2_instance_facts
 
-    
+    - name: Print facts 
       debug:
         var: ec2_instance_facts
 
