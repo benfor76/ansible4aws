@@ -27,11 +27,11 @@
           "tag:stack": "{{ which_env }}"
           #"tag:stack": "customerDemo"
           instance-state-name: [ "running" ]
-      register: ec2_instance_facts
+      register: get_status
 
     - name: Print facts 
       debug:
-        var: ec2_instance_facts
+        var: get_status
 
 
     #- name: Start my lab EC2 instances
@@ -61,5 +61,5 @@
         aws_secret_key: "{{ aws_secret_key }}"
         instance_ids: "{{ item.instance_id }}"
         state: stopped
-      loop: "{{ ec2_instance_facts.instances }}"
+      loop: "{{ get_status.instances }}"
       tags: stop
