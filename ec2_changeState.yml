@@ -1,6 +1,6 @@
 ---
 
-- name: change EC2 instance state of Lab enviornment 
+- name: change EC2 instance state of Lab enviornment v1 
   hosts: localhost
   connection: local
   gather_facts: no
@@ -30,7 +30,7 @@
         #  instance-state-name: [ "running" ]
       register: get_status
 
-    - name: Print facts 
+    - name: Print facts
       debug:
         var: get_status
 
