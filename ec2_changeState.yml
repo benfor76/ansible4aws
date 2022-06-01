@@ -24,11 +24,12 @@
         aws_secret_key: "{{ aws_secret_key }}"
         uptime: 1
         filters:
-          "tag:stack": "{{ which_env }}"
+          #"tag:stack": "{{ which_env }}"
+          "tag:stack": "customerDemo"
         instance-state-name: [ "running" ]
       register: ec2_instance_facts
 
-    - name: print fact
+    
       debug:
         var: ec2_instance_facts
 
