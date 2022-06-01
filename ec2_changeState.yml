@@ -13,8 +13,8 @@
     - credentials.yml
   vars:
     #Your region
-    #region: us-east-1
-    region: eu-west-2
+    region: us-east-1
+    #region: eu-west-2
 
   tasks:
 
@@ -23,12 +23,13 @@
         region: "{{ region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
-        #uptime: 1
-        #filters:
-          #"tag:stack": "{{ which_env }}"
+        uptime: 1
+        filters:
+          "tag:stack": "{{ which_env }}"
           #"tag:stack": "customerDemo"
-        #  instance-state-name: [ "running" ]
+          instance-state-name: [ "running" ]
       register: get_status
+      tag: gather
 
     - name: Print facts
       debug:
@@ -55,12 +56,12 @@
     #    tags:
     #      stack: "{{ which_env }}"
     #  tags: stop
-   # - name: Stop my lab EC2 instances
-   #   ec2_instance:
-   #     region: "{{ region }}"
-   #     aws_access_key: "{{ aws_access_key }}"
-   #     aws_secret_key: "{{ aws_secret_key }}"
-   #     instance_ids: "{{ item.instance_id }}"
-   #     state: stopped
-   #   loop: "{{ get_status.instances }}"
-   #   tags: stop
+    - name: Stop my lab EC2 instances
+      ec2_instance:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        instance_ids: "{{ item.instance_id }}"
+        state: stopped
+      loop: "{{ get_status.instances }}"
+      tags: stop
