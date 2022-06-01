@@ -18,12 +18,12 @@
   tasks:
 
     - name: gather running instance information
-      amazon.aws.ec2_instance_info:
+      ec2_instance_info:
         region: "{{ aws_region }}"
         uptime: 1
         filters:
           "tag:stack": "{{ which_env }}"
-          instance-state-name: [ "running" ]
+        instance-state-name: [ "running" ]
       register: ec2_instance_facts
 
     - name: print fact
