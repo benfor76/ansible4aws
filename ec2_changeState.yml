@@ -51,3 +51,12 @@
     #    tags:
     #      stack: "{{ which_env }}"
     #  tags: stop
+    - name: Stop my lab EC2 instances
+      ec2_instance:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        instance_ids: "{{ item.instance_id }}"
+        state: stopped
+      loop: "{{ ec2_instance_facts.instances }}"
+      tags: stop
