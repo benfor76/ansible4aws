@@ -41,6 +41,7 @@
         instance_type: "{{ item.instance_type }}"
         state: running
       loop: "{{ get_status.instances }}"
+      changed_when: True
       tags: start
 
     - name: Stop my lab EC2 instances
@@ -51,5 +52,6 @@
         instance_ids: "{{ item.instance_id }}"
         instance_type: "{{ item.instance_type }}"
         state: stopped
+      changed_when: True
       loop: "{{ get_status.instances }}"
       tags: stop
