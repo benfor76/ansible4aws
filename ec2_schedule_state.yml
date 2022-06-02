@@ -1,0 +1,35 @@
+---
+
+- name: Schedule to change EC2 instance 
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - amazon.aws
+    - ansible.builtin
+    - community.general
+    - ansible.controller
+
+  vars_files: 
+    - credentials.yml
+  vars:
+    #Your region
+    region: us-east-1
+
+  tasks:
+
+    - name: Build the Schedule for Stopping EC2 instances
+      schedule:
+        name: Park EC2 instances 
+        state: present
+        unified_job_template: EC2-Stop
+        rrule: "{{ query('ansible.controller.schedule_rrule', 'week', start_date=date_time) }}"
+      tags: schedule_stop_ec2
+
+    - name: Build the Schedule for Starting EC2 instances
+      schedule:
+        name: Park EC2 instances 
+        state: present
+        unified_job_template: EC2-Start
+        rrule: "{{ query('ansible.controller.schedule_rrule', 'week', start_date=date_time) }}"
+      tags: schedule_start_ec2
