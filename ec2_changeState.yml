@@ -1,6 +1,6 @@
 ---
 
-- name: change EC2 instance state of Lab enviornment 
+- name: change EC2 instance state of Lab enviornment v1 
   hosts: localhost
   connection: local
   gather_facts: no
@@ -14,27 +14,65 @@
   vars:
     #Your region
     region: us-east-1
+    #region: eu-west-2
 
   tasks:
 
-    - name: Start my lab EC2 instances
-      ec2:
-        region: "{{ region }}"
-        aws_access_key: "{{ aws_access_key }}"
-        aws_secret_key: "{{ aws_secret_key }}"
-        instance_tags:
-          #stack: lab
-          stack: "{{ which_env }}"
-        state: running
-      tags: start
+    #- name: gather running instance information
+    #  ec2_instance_info:
+    #    region: "{{ region }}"
+    #    aws_access_key: "{{ aws_access_key }}"
+    #    aws_secret_key: "{{ aws_secret_key }}"
+    #    uptime: 1
+    #    filters:
+    #      "tag:stack": "{{ which_env }}"
+          #"tag:stack": "customerDemo"
+    #      instance-state-name: [ "running" ]
+    #  register: get_status
+    #  tags: gather
+
+    #- name: Print facts
+    #  debug:
+    #    var: get_status
+
+
+    #- name: Start my lab EC2 instances
+    #  ec2_instance:
+    #    region: "{{ region }}"
+    #    aws_access_key: "{{ aws_access_key }}"
+    #    aws_secret_key: "{{ aws_secret_key }}"
+    #    filters:
+    #      #stack: lab
+    #      stack: "{{ which_env }}"
+    #    state: running
+    #  tags: start
+
+    #- name: Stop my lab EC2 instances
+    #  ec2_instance:
+    #    region: "{{ region }}"
+    #    aws_access_key: "{{ aws_access_key }}"
+    #    aws_secret_key: "{{ aws_secret_key }}"
+    #    state: stopped
+    #    tags:
+    #      stack: "{{ which_env }}"
+    #  tags: stop
+    #- name: Stop my lab EC2 instances
+    #  ec2_instance:
+    #    region: "{{ region }}"
+    #    aws_access_key: "{{ aws_access_key }}"
+    #    aws_secret_key: "{{ aws_secret_key }}"
+    #    instance_ids: "{{ item.instance_id }}"
+    #    instance_type: "{{ item.instance_type }}"
+    #    state: stopped
+    #  loop: "{{ get_status.instances }}"
+    #  tags: stop
 
     - name: Stop my lab EC2 instances
-      ec2:
+      ec2_instance:
         region: "{{ region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
-        instance_tags:
-          #stack: lab
-          stack: "{{ which_env }}"
         state: stopped
+        tags:
+          stack: "{{ which_env }}"
       tags: stop
