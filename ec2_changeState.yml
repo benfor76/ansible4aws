@@ -5,7 +5,8 @@
   connection: local
   gather_facts: no
   collections:
-    - amazon.aws
+    #- amazon.aws
+    - community.aws
     - ansible.builtin
     - community.general
 
