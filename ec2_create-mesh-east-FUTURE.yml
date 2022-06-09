@@ -59,7 +59,7 @@
         wait: yes
         tags:
           owner: Ben
-          stack: customerDemo
+          stack: dev
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
       register: ec2
