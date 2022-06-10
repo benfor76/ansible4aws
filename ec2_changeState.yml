@@ -34,9 +34,10 @@
     #    aws_secret_key: "{{ aws_secret_key }}"
     #  register: subnetinfo
 
-    - name: Store vpc subnet fact
+    - name: Store subnet fact
       set_fact:
         mysubnet: "{{ get_status.instances|map(attribute='subnet_id') | join(',')}}"
+      tags: get_subnet
 
 #    - name: Print facts
 #      debug:
