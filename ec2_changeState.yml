@@ -27,55 +27,55 @@
       register: get_status
       tags: gather
 
-    - name: Gather VPC info
-      ec2_vpc_subnet_info:
-        region: "{{ region }}"
-        aws_access_key: "{{ aws_access_key }}"
-        aws_secret_key: "{{ aws_secret_key }}"
-      register: subnetinfo
+    #- name: Gather VPC info
+    #  ec2_vpc_subnet_info:
+    #    region: "{{ region }}"
+    #    aws_access_key: "{{ aws_access_key }}"
+    #    aws_secret_key: "{{ aws_secret_key }}"
+    #  register: subnetinfo
 
     - name: Store vpc subnet fact
       set_fact:
         mysubnet: "{{ get_status.instances|map(attribute='subnet_id') | join(',')}}"
 
-    - name: Print facts
-      debug:
-        var: get_status
-      tags: print_facts
+#    - name: Print facts
+#      debug:
+#        var: get_status
+#      tags: print_facts
 
-    - name: Print subnets
-      debug:
-        var: mysubnet 
-      tags: print_subnets
+#    - name: Print subnets
+#      debug:
+#        var: mysubnet 
+#      tags: print_subnets
 
-    - name: Print subnet info
-      debug:
-        var: subnetinfo 
-      tags: print_subnetinfo
+#    - name: Print subnet info
+#      debug:
+#        var: subnetinfo 
+#      tags: print_subnetinfo
 
 
-    #- name: Start my lab EC2 instances
-    #  ec2_instance:
-    #    region: "{{ region }}"
-    #    aws_access_key: "{{ aws_access_key }}"
-    #    aws_secret_key: "{{ aws_secret_key }}"
-    #    instance_ids: "{{ item.instance_id }}"
-    #    instance_type: "{{ item.instance_type }}"
-    #    #vpc_subnet_id: "{{ item.subnet_id }}"
-    #    state: running
-    #  loop: "{{ get_status.instances }}"
-    #  changed_when: True
-    #  tags: start
+    - name: Start my lab EC2 instances
+      ec2_instance:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        instance_ids: "{{ item.instance_id }}"
+        instance_type: "{{ item.instance_type }}"
+        vpc_subnet_id: "{{ mysubnet }}"
+        state: running
+      loop: "{{ get_status.instances }}"
+      changed_when: True
+      tags: start
 
-    #- name: Stop my lab EC2 instances
-    #  ec2_instance:
-    #    region: "{{ region }}"
-    #    aws_access_key: "{{ aws_access_key }}"
-    #    aws_secret_key: "{{ aws_secret_key }}"
-    #    instance_ids: "{{ item.instance_id }}"
-    #    instance_type: "{{ item.instance_type }}"
-    #    #vpc_subnet_id: "{{ item.subnet_id }}"
-    #    state: stopped
-    #  changed_when: True
-    #  loop: "{{ get_status.instances }}"
-    #  tags: stop
+    - name: Stop my lab EC2 instances
+      ec2_instance:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        instance_ids: "{{ item.instance_id }}"
+        instance_type: "{{ item.instance_type }}"
+        vpc_subnet_id: "{{ mysubnet }}"
+        state: stopped
+      changed_when: True
+      loop: "{{ get_status.instances }}"
+      tags: stop
