@@ -30,6 +30,7 @@
     - name: Print facts
       debug:
         var: get_status
+      tags: print_facts
 
     - name: Start my lab EC2 instances
       ec2_instance:
