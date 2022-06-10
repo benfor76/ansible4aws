@@ -34,9 +34,9 @@
 
     - name: Print subnets
       debug:
-        var: "{{ item }}"
+        var: "{{ item.subnet_id }}"
       tags: print_subnets
-      loop: "{{ get_status.instances.subnet_id }}"
+      loop: "{{ get_status.instances }}"
 
     #- name: Start my lab EC2 instances
     #  ec2_instance:
