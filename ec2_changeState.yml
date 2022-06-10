@@ -46,8 +46,9 @@
 
     - name: Print subnets
       debug:
-        var: "{{ mysubnet }}"
+        var: "{{ item }}"
       tags: print_subnets
+      loop: mysubnet
 
     #- name: Start my lab EC2 instances
     #  ec2_instance:
