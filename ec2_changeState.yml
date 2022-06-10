@@ -34,7 +34,7 @@
 
     - name: Print subnets
       debug:
-        var: {{ item.subnet_id }}
+        msg: "{{ item.subnet_id }}"
       loop: "{{ get_status.instances }}"
       tags: print_subnets
 
