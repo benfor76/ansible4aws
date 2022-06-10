@@ -38,6 +38,7 @@
       set_fact:
         mysubnet: "{{ get_status.instances|map(attribute='subnet_id') | join(',')}}"
       tags: get_subnet
+      ignore_errors: True
 
 #    - name: Print facts
 #      debug:
@@ -62,10 +63,11 @@
         aws_secret_key: "{{ aws_secret_key }}"
         instance_ids: "{{ item.instance_id }}"
         instance_type: "{{ item.instance_type }}"
-        vpc_subnet_id: "{{ mysubnet }}"
+        #vpc_subnet_id: "{{ mysubnet }}"
         state: running
       loop: "{{ get_status.instances }}"
       changed_when: True
+      ignore_errors: True
       tags: start
 
     - name: Stop my lab EC2 instances
@@ -75,8 +77,9 @@
         aws_secret_key: "{{ aws_secret_key }}"
         instance_ids: "{{ item.instance_id }}"
         instance_type: "{{ item.instance_type }}"
-        vpc_subnet_id: "{{ mysubnet }}"
+        #vpc_subnet_id: "{{ mysubnet }}"
         state: stopped
       changed_when: True
+      ignore_errors: True
       loop: "{{ get_status.instances }}"
       tags: stop
