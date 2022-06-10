@@ -40,10 +40,10 @@
       tags: get_subnet
       ignore_errors: True
 
-#    - name: Print facts
-#      debug:
-#        var: get_status
-#      tags: print_facts
+    - name: Print facts
+      debug:
+        var: get_status
+      tags: print_facts
 
     - name: Print subnets
       debug:
