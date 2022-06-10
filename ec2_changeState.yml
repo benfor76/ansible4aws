@@ -45,15 +45,10 @@
 #        var: get_status
 #      tags: print_facts
 
-#    - name: Print subnets
-#      debug:
-#        var: mysubnet 
-#      tags: print_subnets
-
-#    - name: Print subnet info
-#      debug:
-#        var: subnetinfo 
-#      tags: print_subnetinfo
+    - name: Print subnets
+      debug:
+        var: mysubnet 
+      tags: print_subnets
 
 
     - name: Start my lab EC2 instances
