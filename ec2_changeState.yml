@@ -36,7 +36,7 @@
 
     - name: Store vpc subnet fact
       set_fact:
-        mysubnet: "{{ subnetinfo.subnets|map(attribute='subnet_id') | join(',')}}"
+        mysubnet: "{{ get_status.instances|map(attribute='subnet_id') | join(',')}}"
 
     - name: Print facts
       debug:
