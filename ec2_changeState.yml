@@ -48,6 +48,12 @@
         var: mysubnet 
       tags: print_subnets
 
+    - name: Print subnet info
+      debug:
+        var: subnetinfo 
+      tags: print_subnetinfo
+
+
     #- name: Start my lab EC2 instances
     #  ec2_instance:
     #    region: "{{ region }}"
