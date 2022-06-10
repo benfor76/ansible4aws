@@ -27,6 +27,17 @@
       register: get_status
       tags: gather
 
+    - name: Gather VPC info
+      ec2_vpc_subnet_info:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+      register: subnetinfo
+
+    - name: Store vpc subnet fact
+      set_fact:
+        mysubnet: "{{ subnetinfo.subnets|map(attribute='subnet_id') | join(',')}}"
+
     - name: Print facts
       debug:
         var: get_status
@@ -34,9 +45,8 @@
 
     - name: Print subnets
       debug:
-        var: "{{ item.subnet_id }}"
+        var: mysubnet 
       tags: print_subnets
-      loop: "{{ get_status.instances }}"
 
     #- name: Start my lab EC2 instances
     #  ec2_instance:
