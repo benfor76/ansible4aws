@@ -39,7 +39,7 @@
         aws_secret_key: "{{ aws_secret_key }}"
         instance_ids: "{{ item.instance_id }}"
         instance_type: "{{ item.instance_type }}"
-        vpc_subnet_id: "{{ item.subnet_id }}"
+        #vpc_subnet_id: "{{ item.subnet_id }}"
         state: running
       loop: "{{ get_status.instances }}"
       changed_when: True
@@ -52,7 +52,7 @@
         aws_secret_key: "{{ aws_secret_key }}"
         instance_ids: "{{ item.instance_id }}"
         instance_type: "{{ item.instance_type }}"
-        vpc_subnet_id: "{{ item.subnet_id }}"
+        #vpc_subnet_id: "{{ item.subnet_id }}"
         state: stopped
       changed_when: True
       loop: "{{ get_status.instances }}"
