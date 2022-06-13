@@ -13,7 +13,8 @@
     - credentials.yml
   vars:
     #Your region
-    region: us-east-1
+    #region: us-east-1
+    region: "{{ which_region }}"
 
   tasks:
 
