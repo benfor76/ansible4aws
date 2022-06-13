@@ -48,7 +48,7 @@
         instance_type: t2.micro
         #image_id: ami-0b0af3577fe5e3532
         image_id: ami-0ad8ecac8af5fc52b
-        count: "{{ how_many }}"
+        count: "{{ how_many | int }}"
         region: "{{ region }}"
         security_groups: "{{ mysg }}"
         vpc_subnet_id: "{{ mysubnet }}"
