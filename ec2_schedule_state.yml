@@ -24,9 +24,9 @@
         name: Park EC2 instances for {{ which_env }} in the {{ region }} region
         state: present
         unified_job_template: EC2-Stop
-        #rrule: "{{ query('ansible.controller.schedule_rrule', frequency, start_date=stop_date_time,timezone='GMT',every=repetition | int) }}"
+        rrule: "{{ query('ansible.controller.schedule_rrule', frequency, start_date=stop_date_time,timezone='GMT',every=repetition | int) }}"
         #Use with Surveys
-        rrule: "{{ query('ansible.controller.schedule_rrule', frequency, start_date=stop_date_time,timezone='US/Eastern',every=repetition | int) }}"
+        #rrule: "{{ query('ansible.controller.schedule_rrule', frequency, start_date=stop_date_time,timezone='US/Eastern',every=repetition | int) }}"
         extra_data:
           region: "{{ region }}"
           which_env: "{{ which_env }}"
@@ -37,9 +37,9 @@
         name: Unpark EC2 instances for {{ which_env }}  in the {{ region }} region
         state: present
         unified_job_template: EC2-Start
-        #rrule: "{{ query('ansible.controller.schedule_rrule', frequency, start_date=start_date_time,timezone='GMT',every=repetition | int) }}"
+        rrule: "{{ query('ansible.controller.schedule_rrule', frequency, start_date=start_date_time,timezone='GMT',every=repetition | int) }}"
         #Use with surveys
-        rrule: "{{ query('ansible.controller.schedule_rrule', frequency, start_date=start_date_time,timezone='US/Eastern',every=repetition | int) }}"
+        #rrule: "{{ query('ansible.controller.schedule_rrule', frequency, start_date=start_date_time,timezone='US/Eastern',every=repetition | int) }}"
         extra_data:
           region: "{{ region }}"
           which_env: "{{ which_env }}"
