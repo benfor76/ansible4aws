@@ -52,6 +52,7 @@
         aws_secret_key: "{{ aws_secret_key }}"
         instance_ids: "{{ item.instance_id }}"
         instance_type: "{{ item.instance_type }}"
+        wait: yes
         #vpc_subnet_id: "{{ mysubnet }}"
         state: running
       loop: "{{ get_status.instances }}"
