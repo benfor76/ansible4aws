@@ -75,8 +75,16 @@
       register: get_status
       tags: gather
 
+    - name: Store Security Group fact
+      set_fact:
+        ec2_ip: item 
+      loop: "{{ get_status.instances | json_query('[*].public_ip_address') }}"
+
+    #- name: Print IP Addresses
+    #  debug:
+    #    var: item
+    #  loop: "{{ get_status.instances | json_query('[*].public_ip_address') }}"
+    #  tags: printstatus
     - name: Print IP Addresses
       debug:
-        var: item
-      loop: "{{ get_status.instances | json_query('[*].public_ip_address') }}"
-      tags: printstatus
+        var: ec2_ip

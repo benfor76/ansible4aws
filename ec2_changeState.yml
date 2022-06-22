@@ -34,17 +34,6 @@
       tags: get_subnet
       ignore_errors: True
 
-    - name: Print facts
-      debug:
-        var: get_status
-      tags: print_facts
-
-    - name: Print subnets
-      debug:
-        var: mysubnet 
-      tags: print_subnets
-
-
     - name: Start my lab EC2 instances
       ec2_instance:
         region: "{{ region }}"
@@ -74,7 +63,7 @@
       loop: "{{ get_status.instances }}"
       tags: stop
 
-    - name: gather running instance information
+    - name: gather running instance information upon start
       ec2_instance_info:
         region: "{{ region }}"
         aws_access_key: "{{ aws_access_key }}"
