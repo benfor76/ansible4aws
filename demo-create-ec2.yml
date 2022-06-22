@@ -54,7 +54,8 @@
         vpc_subnet_id: "{{ mysubnet }}"
         #key_name: aap-mesh-ec2
         key_name: aap-mesh-ec2-eu
-        assign_public_ip: yes
+        network:
+          assign_public_ip: yes
         state: present
         wait: yes
         tags:
