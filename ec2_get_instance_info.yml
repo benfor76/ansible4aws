@@ -35,10 +35,14 @@
     - name: Store IP Address information 
       set_fact:
         #mysg: "{{ sginfo.security_groups|map(attribute='group_id')|list }}"
-        ec2_ip_addr: "{{ get_status.instances.network_interfaces.association|map(attribute='public_ip')|list }}"
+        #ec2_ip_addr: "{{ get_status.instances.network_interfaces.association|map(attribute='public_ip')|list }}"
+        ec2_ip_addr: "{{ get_status.instances.network_interfaces|map(attribute='public_ip')|list }}"
 
     - name: Print facts
       debug:
-        var: ec2_ip_addr
+        msg: " {{ item.public_ip }}"
+      loop: " {{ get_status.instances.network_interfaces }}"
+      changed_when: True
+      ignore_errors: True
       tags: print_ip
     
