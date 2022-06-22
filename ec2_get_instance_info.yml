@@ -35,7 +35,7 @@
     - name: Store Security Group fact
       set_fact:
         #mysg: "{{ sginfo.security_groups|map(attribute='group_id')|list }}"
-        ec2_ip_addr: "{{ get_status.instances|map(attribute='public_ip_address')|list }}"
+        ec2_ip_addr: "{{ get_status.instances.network_interfaces|map(attribute='public_ip')|list }}"
 
     - name: Print facts
       debug:
