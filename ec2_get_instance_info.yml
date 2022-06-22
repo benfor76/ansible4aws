@@ -36,13 +36,9 @@
       set_fact:
         #mysg: "{{ sginfo.security_groups|map(attribute='group_id')|list }}"
         #ec2_ip_addr: "{{ get_status.instances.network_interfaces.association|map(attribute='public_ip')|list }}"
-        ec2_ip_addr: "{{ get_status.instances.network_interfaces|map(attribute='public_ip')|list }}"
+        #"{{ get_status.instances|map(attribute='subnet_id') | join(',')}}"
+        ec2_ip_addr: "{{ get_status.instances|map(attribute='public_ip_address') | join(',')}}"
 
     - name: Print facts
       debug:
-        msg: " {{ item.public_ip }}"
-      loop: " {{ get_status.network_interfaces.association }}"
-      changed_when: True
-      ignore_errors: True
-      tags: print_ip
-    
+        var: ec2_ip_addr
