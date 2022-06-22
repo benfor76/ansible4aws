@@ -72,3 +72,9 @@
       ignore_errors: True
       loop: "{{ get_status.instances }}"
       tags: stop
+
+    - name: Print IP Addresses
+      debug:
+        var: item
+      loop: "{{ get_status.instances | json_query('[*].public_ip_address') }}"
+      tags: printip
