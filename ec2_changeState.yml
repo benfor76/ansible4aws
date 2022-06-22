@@ -74,8 +74,18 @@
       loop: "{{ get_status.instances }}"
       tags: stop
 
+    - name: gather running instance information
+      ec2_instance_info:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        filters:
+          "tag:stack": "{{ which_env }}"
+      register: get_status_on_start
+      tags: gather_on_start
+
     - name: Print IP Addresses
       debug:
         var: item
-      loop: "{{ get_status.instances | json_query('[*].public_ip_address') }}"
+      loop: "{{ get_status_on_start.instances | json_query('[*].public_ip_address') }}"
       tags: printip
