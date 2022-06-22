@@ -13,8 +13,6 @@
     #Your region
     #region: us-east-1
     region: "{{ which_region }}" 
-    #sgname: AA-Lab
-    #sgname: "{{ which_security_group }}" 
   tasks:
 
     - name: gather running instance information
@@ -27,26 +25,8 @@
       register: get_status
       tags: gather
 
-    - name: Print facts
-      debug:
-        var: get_status
-      tags: print_facts
-
-    #- name: Store IP Address information 
-    #  set_fact:
-        #mysg: "{{ sginfo.security_groups|map(attribute='group_id')|list }}"
-        #ec2_ip_addr: "{{ get_status.instances.network_interfaces.association|map(attribute='public_ip')|list }}"
-        #"{{ get_status.instances|map(attribute='subnet_id') | join(',')}}"
-        #ec2_ip_addr: "{{ get_status.instances|map(attribute='public_ip_address') | join(',')}}"
-        #ec2_ip_addr: "{{ get_status.instances|map(attribute='public_ip_address') }}"
-        #ec2_ip_addr: "{{ get_status.instances|map(attribute='public_ip_address') }}"
-
     - name: Print IP Addresses
       debug:
         var: item
       loop: "{{ get_status.instances | json_query('[*].public_ip_address') }}"
       tags: printstatus
-
-    #- name: Print facts
-    #  debug:
-    #    var: ec2_ip_addr
