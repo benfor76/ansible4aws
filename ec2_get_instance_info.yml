@@ -41,7 +41,7 @@
     - name: Print facts
       debug:
         msg: " {{ item.public_ip }}"
-      loop: " {{ get_status.instances.network_interfaces }}"
+      loop: " {{ get_status.network_interfaces.association }}"
       changed_when: True
       ignore_errors: True
       tags: print_ip
