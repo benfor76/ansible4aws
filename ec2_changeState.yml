@@ -83,6 +83,7 @@
       set_fact:
         ec2_ip: "{{ item }}"
       loop: "{{ get_status_on_start.instances | json_query('[*].public_ip_address') }}"
+      register: get_ip
 
     - name: Send IP Information and PEM Key info to user
       mail:
