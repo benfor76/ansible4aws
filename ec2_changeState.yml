@@ -84,7 +84,7 @@
         host: smtp.gmail.com
         port: 587
         username: ben.forrester1976@gmail.com 
-        password: TNf2011$# 
+        password: spqrgbrfbxnpnfuy
         #password: "{{ my_gmail }}"
         to:  bforrest@redhat.com
         subject: Your EC2's are ready for use. See information to connect
