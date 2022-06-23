@@ -81,7 +81,7 @@
 
     - name: Store Security Group fact
       set_fact:
-        ec2_ip: "{{ item.split('\n') | unique | select | list }}"
+        ec2_ip: "{{ item }}"
       loop: "{{ get_status_on_start.instances | json_query('[*].public_ip_address') }}"
       register: get_ip
 
