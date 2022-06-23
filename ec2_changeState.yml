@@ -85,7 +85,7 @@
       port: 587
       username: ben.forrester1976@gmail.com 
       password: "{{ my_gmail }}"
-      to: "{{  }}" 
+      to:  bforrest@redhat.com
       subject: Your EC2's are ready for use. See information to connect
       body: Test successful
       delegate_to: localhost
