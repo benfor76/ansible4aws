@@ -73,11 +73,16 @@
       register: get_status_on_start
       tags: gather_on_start
 
-    - name: Print IP Addresses
-      debug:
-        var: item
+    #- name: Print IP Addresses
+    #  debug:
+    #    var: item
+    #  loop: "{{ get_status_on_start.instances | json_query('[*].public_ip_address') }}"
+    #  tags: printip
+
+    - name: Store Security Group fact
+      set_fact:
+        ec2_ip: item 
       loop: "{{ get_status_on_start.instances | json_query('[*].public_ip_address') }}"
-      tags: printip
 
     - name: Send IP Information and PEM Key info to user
       mail:
@@ -87,9 +92,7 @@
         password: "{{ my_gmail_pw }}"
         to:  bforrest@redhat.com
         subject: Your EC2's are ready for use. See information to connect
-        body: 
-          - Hello test.
-          - Have a great day!
-        #body: "{{ lookup('template','aws_provision_email.j2') }}"
+        #body: 
+        body: "{{ lookup('template','aws_provision_email.j2') }}"
       delegate_to: localhost
       tags: sendemail
