@@ -77,14 +77,19 @@
 
     - name: Store Security Group fact
       set_fact:
-        ec2_ip: item 
+        ec2_ip: "{{ item }}"
       loop: "{{ get_status.instances | json_query('[*].public_ip_address') }}"
+      register: get_ip
 
-    #- name: Print IP Addresses
-    #  debug:
-    #    var: item
-    #  loop: "{{ get_status.instances | json_query('[*].public_ip_address') }}"
-    #  tags: printstatus
-    - name: Print IP Addresses
-      debug:
-        var: ec2_ip
+    - name: Send IP Information and PEM Key info to user
+      mail:
+        host: smtp.gmail.com
+        port: 587
+        username: "{{ my_gmail_id }}"
+        password: "{{ my_gmail_pw }}"
+        to:  bforrest@redhat.com
+        subject: Your EC2's are ready for use. See information to connect
+        #body: 
+        body: "{{ lookup('template','aws_provision_email.j2') }}"
+      delegate_to: localhost
+      tags: sendemail
