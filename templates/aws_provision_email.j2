@@ -3,7 +3,7 @@ to your EC2 instances.
 
 The IP Addresses to use are:
 
-{{ get_ip.results | regex('\\b(\\w+)(?:\\W+\\1\\b)+') | regex_findall('\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b') }}
+{{ get_ip.results | regex_findall('\\b(?:[0-9]{1,3}\\.){3}[0-9]{1,3}\\b') }}
 
 
 Use the below PEM key to ssh to your EC2's:
