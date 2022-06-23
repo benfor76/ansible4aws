@@ -78,3 +78,15 @@
         var: item
       loop: "{{ get_status_on_start.instances | json_query('[*].public_ip_address') }}"
       tags: printip
+
+    - name: Send IP Information and PEM Key info to user
+      mail:
+        host: smtp.gmail.com
+      port: 587
+      username: ben.forrester1976@gmail.com 
+      password: "{{ my_gmail }}"
+      to: "{{  }}" 
+      subject: Your EC2's are ready for use. See information to connect
+      body: Test successful
+      delegate_to: localhost
+      tags: sendemail
