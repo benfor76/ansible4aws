@@ -87,7 +87,7 @@
         port: 587
         username: "{{ my_gmail_id }}"
         password: "{{ my_gmail_pw }}"
-        to:  bforrest@redhat.com
+        to: {{ requester_email }} 
         subject: Your EC2's are ready for use. See information to connect
         #body: 
         body: "{{ lookup('template','aws_provision_email.j2') }}"
