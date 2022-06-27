@@ -78,18 +78,10 @@
       register: get_status_on_start
       tags: gather_on_start
 
-    #- name: Print IP Addresses
-    #  debug:
-    #    var: item
-    #  loop: "{{ get_status_on_start.instances | json_query('[*].public_ip_address') }}"
-    #  tags: printip
-
     - name: Store EC2 IP Information 
       set_fact:
-        #ec2_ip: "{{ item }}"
         ec2_ip: "{{ ec2_ip | default([]) + [ item ] }}"
       loop: "{{ get_status_on_start.instances | json_query('[*].public_ip_address') }}"
-      #register: get_ip
 
     - name: Send IP Information and PEM Key info to user
       mail:
@@ -99,7 +91,6 @@
         password: "{{ my_gmail_pw }}"
         to: "{{ owner }}"
         subject: Your EC2's are ready for use. See information to connect
-        #body: 
         body: "{{ lookup('template','aws_provision_email.j2') }}"
       delegate_to: localhost
       tags: sendemail
