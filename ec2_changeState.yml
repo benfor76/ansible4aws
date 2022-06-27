@@ -31,9 +31,13 @@
     - name: Store subnet fact
       set_fact:
         mysubnet: "{{ get_status.instances|map(attribute='subnet_id') | join(',')}}"
-        owner: "{{ get_status.instances | selectattr('tags.owner', 'defined') | map(attribute='tags.owner') | list | unique}}"
       tags: get_subnet
       ignore_errors: True
+
+    - name: Store Owner fact
+      set_fact:
+        owner: "{{ get_status.instances | selectattr('tags.owner', 'defined') | map(attribute='tags.owner') | list | unique}}"
+      tags: get_subnet
 
     - name: Start my lab EC2 instances
       ec2_instance:
