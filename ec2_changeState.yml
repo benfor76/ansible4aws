@@ -31,6 +31,7 @@
     - name: Store subnet fact
       set_fact:
         mysubnet: "{{ get_status.instances|map(attribute='subnet_id') | join(',')}}"
+        owner: "{{ get_status.instances | selectattr('tags.owner', 'defined') | map(attribute='tags.owner') | list | unique}}"
       tags: get_subnet
       ignore_errors: True
 
@@ -91,7 +92,7 @@
         port: 587
         username: "{{ my_gmail_id }}"
         password: "{{ my_gmail_pw }}"
-        to: "{{ requester_email }}"
+        to: "{{ owner }}"
         subject: Your EC2's are ready for use. See information to connect
         #body: 
         body: "{{ lookup('template','aws_provision_email.j2') }}"
