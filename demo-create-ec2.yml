@@ -75,11 +75,18 @@
       register: get_status
       tags: gather
 
+    #- name: Store Security Group fact
+    #  set_fact:
+    #    ec2_ip: "{{ item }}"
+    #  loop: "{{ get_status.instances | json_query('[*].public_ip_address') }}"
+    #  register: get_ip
+
     - name: Store Security Group fact
       set_fact:
-        ec2_ip: "{{ item }}"
-      loop: "{{ get_status.instances | json_query('[*].public_ip_address') }}"
-      register: get_ip
+        #ec2_ip: "{{ item }}"
+        ec2_ip: "{{ ec2_ip | default([]) + [ item ] }}"
+      loop: "{{ get_status_on_start.instances | json_query('[*].public_ip_address') }}"
+      #register: get_ip
 
     - name: Send IP Information and PEM Key info to user
       mail:
