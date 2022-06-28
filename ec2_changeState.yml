@@ -37,7 +37,7 @@
     - name: Store Owner fact
       set_fact:
         owner: "{{ get_status.instances | selectattr('tags.owner', 'defined') | map(attribute='tags.owner') | list | unique}}"
-      tags: get_subnet
+      tags: get_owner
 
     - name: Start my lab EC2 instances
       ec2_instance:
