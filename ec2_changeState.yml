@@ -85,6 +85,7 @@
       set_fact:
         ec2_ip: "{{ ec2_ip | default([]) + [ item ] }}"
       loop: "{{ get_status_on_start.instances | json_query('[*].public_ip_address') }}"
+      tags: get_pub_ip
 
     - name: Send IP Information and PEM Key info to user
       mail:
