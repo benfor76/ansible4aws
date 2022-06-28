@@ -73,7 +73,6 @@
           "tag:stack": "{{ which_env }}"
       register: get_status
       until: get_status.instances | json_query('[*].public_ip_address') | length > 0 
-      #until: get_status.instances[0].public_ip_address is defined
       retries: 10
       delay: 2
       tags: gather

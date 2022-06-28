@@ -76,6 +76,9 @@
         filters:
           "tag:stack": "{{ which_env }}"
       register: get_status_on_start
+      until: get_status_on_start.instances | json_query('[*].public_ip_address') | length > 0 
+      retries: 10
+      delay: 2
       tags: gather_on_start
 
     - name: Store EC2 IP Information 
