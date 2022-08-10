@@ -28,4 +28,18 @@
     - name: Print EC2 Information fori {{ which_env }}
       debug:
         var: get_status
+    
+    - name: Update SNOW CMDB
+      servicenow.itsm.configuration_item:
+        state: "{{ status }}"
+        name: "{{ item.private_dns_name }}"
+        ip_address: "{{ item.private_ip_address | default(omit) }}"
+        environment: test
+        sys_class_name: cmdb_ci_server
+        sys_id: "{{ sys_id | default(omit) }}"
+      other:
+        classification: Development
+        u_region: "{{ item.placement.availability_zone }}"
+      delegate_to: localhost
+      loop: {{ get_status.instances }}
       
