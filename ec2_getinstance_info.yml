@@ -1,0 +1,31 @@
+---
+- name: Create RHEL 8 EC2 instance
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - amazon.aws
+    - ansible.builtin
+
+  vars_files: 
+    - credentials.yml
+  vars:
+    #Your region
+    #region: us-east-1
+    region: "{{ which_region }}" 
+  tasks:
+
+    - name: gather running instance information
+      ec2_instance_info:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        filters:
+          "tag:stack": "{{ which_env }}"
+      register: get_status
+      tags: gather
+
+    - name: Print EC2 Information fori {{ which_env }}
+      debug:
+        var: get_status
+      
