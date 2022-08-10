@@ -41,4 +41,4 @@
           classification: Development
           u_region: "{{ item.placement.availability_zone }}"
       delegate_to: localhost
-      loop: " {{ get_status.instances }} "
+      loop: " {{ get_status.instances | flatten(levels=1) }} "
