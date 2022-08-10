@@ -37,9 +37,8 @@
         environment: test
         sys_class_name: cmdb_ci_server
         sys_id: "{{ sys_id | default(omit) }}"
-      other:
-        classification: Development
-        u_region: "{{ item.placement.availability_zone }}"
+        other:
+          classification: Development
+          u_region: "{{ item.placement.availability_zone }}"
       delegate_to: localhost
       loop: " {{ get_status.instances }} "
-      
