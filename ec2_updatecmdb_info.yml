@@ -28,6 +28,11 @@
     - name: Print EC2 Information fori {{ which_env }}
       debug:
         var: get_status
+
+    #- name: Store EC2 private IP address info 
+    #  set_fact:
+    #    ec2_ip: "{{ ec2_ip_private | default([]) + [ item ] }}"
+    #  loop: "{{ get_status.instances | json_query('[*].public_ip_address') }}"
     
     - name: Update SNOW CMDB
       servicenow.itsm.configuration_item:
@@ -41,4 +46,4 @@
           classification: Development
           u_region: "{{ item.placement.availability_zone }}"
       delegate_to: localhost
-      loop: " {{ get_status.instances | flatten(levels=1) }} "
+      loop: "{{ get_status.instances }}"
