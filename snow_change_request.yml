@@ -26,6 +26,9 @@
         impact: low
         assignment_group: "CAB Approval"
         state: assess
+        other:
+          cmdb_ci: "{{ enter_ci }}"
+
       register: request
       delegate_to: localhost
 
