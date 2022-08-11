@@ -32,14 +32,15 @@
     - name: Update SNOW CMDB
       servicenow.itsm.configuration_item:
         state: "{{ status }}"
-        name: "{{ item.private_dns_name }}"
-        ip_address: "{{ item.private_ip_address | default(omit) }}"
+        name: "{{ item.public_dns_name }}"
+        ip_address: "{{ item.public_ip_address | default(omit) }}"
         environment: test
         sys_class_name: cmdb_ci_server
         sys_id: "{{ sys_id | default(omit) }}"
         other:
           classification: Development
           os: "{{ os }}"
+          host_name: "{{ item.public_dns_name }}"
           u_region: "{{ item.placement.availability_zone }}"
       delegate_to: localhost
       loop: "{{ get_status.instances }}"
