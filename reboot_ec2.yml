@@ -1,0 +1,101 @@
+---
+
+- name: Reboot EC2 based on CI name entered in
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  collections:
+    - amazon.aws
+    - ansible.builtin
+    - community.general
+
+  vars_files: 
+    - credentials.yml
+  vars:
+    #Your region
+    #region: us-east-1
+    region: "{{ which_region }}"
+
+  tasks:
+
+    - name: gather running instance information
+      ec2_instance_info:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        filters:
+          #"tag:stack": "{{ which_env }}"
+          "private-dns-name": "{{ enter_ci }}"
+      register: get_status
+      tags: gather
+
+    - name: Store subnet fact
+      set_fact:
+        mysubnet: "{{ get_status.instances|map(attribute='subnet_id') | join(',')}}"
+      tags: get_subnet
+      ignore_errors: True
+
+    #- name: Store Owner fact
+    #  set_fact:
+    #    owner: "{{ get_status.instances | selectattr('tags.owner', 'defined') | map(attribute='tags.owner') | list | unique}}"
+    #  tags: get_owner
+
+    #- name: Start my lab EC2 instances
+    #  ec2_instance:
+    #    region: "{{ region }}"
+    #    aws_access_key: "{{ aws_access_key }}"
+    #    aws_secret_key: "{{ aws_secret_key }}"
+    #    instance_ids: "{{ item.instance_id }}"
+    #    instance_type: "{{ item.instance_type }}"
+    #    wait: yes
+        #vpc_subnet_id: "{{ mysubnet }}"
+    #    state: running
+    #  loop: "{{ get_status.instances }}"
+    #  changed_when: True
+    #  ignore_errors: True
+    #  tags: start
+
+    #- name: Stop my lab EC2 instances
+    #  ec2_instance:
+    #    region: "{{ region }}"
+    #    aws_access_key: "{{ aws_access_key }}"
+    #    aws_secret_key: "{{ aws_secret_key }}"
+    #    instance_ids: "{{ item.instance_id }}"
+    #    instance_type: "{{ item.instance_type }}"
+        #vpc_subnet_id: "{{ mysubnet }}"
+    #    state: stopped
+    #  changed_when: True
+    #  ignore_errors: True
+    #  loop: "{{ get_status.instances }}"
+    #  tags: stop
+
+    #- name: gather running instance information upon start
+    #  ec2_instance_info:
+    #    region: "{{ region }}"
+    #    aws_access_key: "{{ aws_access_key }}"
+    #    aws_secret_key: "{{ aws_secret_key }}"
+    #    filters:
+    #      "tag:stack": "{{ which_env }}"
+    #  register: get_status_on_start
+    #  until: get_status_on_start.instances | json_query('[*].public_ip_address') | length > 0 
+    #  retries: 10
+    #  delay: 2
+    #  tags: gather_on_start
+
+    #- name: Store EC2 IP Information 
+    #  set_fact:
+    #    ec2_ip: "{{ ec2_ip | default([]) + [ item ] }}"
+    #  loop: "{{ get_status_on_start.instances | json_query('[*].public_ip_address') }}"
+    #  tags: get_pub_ip
+
+    #- name: Send IP Information and PEM Key info to user
+    #  mail:
+    #    host: smtp.gmail.com
+    #    port: 587
+    #    username: "{{ my_gmail_id }}"
+    #    password: "{{ my_gmail_pw }}"
+    #    to: "{{ owner }}"
+    #    subject: Your EC2's are ready for use. See information to connect
+    #    body: "{{ lookup('template','aws_provision_email.j2') }}"
+    #  delegate_to: localhost
+    #  tags: sendemail
