@@ -47,12 +47,11 @@
   delegate_to: localhost
 
 - name: Add Change tasks
-  - name: Create a change task
-    servicenow.itsm.change_request_task:
-      configuration_item: "{{ u_ci }}"
-      change_request_number: "{{ request.record.number }}"
-      type: implementation
-      state: in_progress
-      assignment_group: "CAB Approval"
-      short_description: Reboot EC2
-      description: "Reboot EC2"
+  servicenow.itsm.change_request_task:
+    configuration_item: "{{ u_ci }}"
+    change_request_number: "{{ request.record.number }}"
+    type: implementation
+    state: in_progress
+    assignment_group: "CAB Approval"
+    short_description: Reboot EC2
+    description: "Reboot EC2"
