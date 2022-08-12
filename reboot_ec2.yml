@@ -24,7 +24,6 @@
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         filters:
-          #"tag:stack": "{{ which_env }}"
           "private-dns-name": "{{ enter_ci }}"
       register: get_status
       tags: gather
@@ -40,20 +39,20 @@
     #    owner: "{{ get_status.instances | selectattr('tags.owner', 'defined') | map(attribute='tags.owner') | list | unique}}"
     #  tags: get_owner
 
-    #- name: Start my lab EC2 instances
-    #  ec2_instance:
-    #    region: "{{ region }}"
-    #    aws_access_key: "{{ aws_access_key }}"
-    #    aws_secret_key: "{{ aws_secret_key }}"
-    #    instance_ids: "{{ item.instance_id }}"
-    #    instance_type: "{{ item.instance_type }}"
-    #    wait: yes
+    - name: Reboot EC2 instance
+      ec2_instance:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        instance_ids: "{{ item.instance_id }}"
+        instance_type: "{{ item.instance_type }}"
+        wait: yes
         #vpc_subnet_id: "{{ mysubnet }}"
-    #    state: running
-    #  loop: "{{ get_status.instances }}"
-    #  changed_when: True
-    #  ignore_errors: True
-    #  tags: start
+        state: rebooted
+      loop: "{{ get_status.instances }}"
+      changed_when: True
+      ignore_errors: True
+      tags: reboot
 
     #- name: Stop my lab EC2 instances
     #  ec2_instance:
