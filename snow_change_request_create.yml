@@ -88,4 +88,12 @@
         description: "Reboot EC2"
         other: 
           u_ec2_public_ip_address: "{{ get_status.instances[0].public_ip_address }}"
-        
+      register: new_change_task        
+    
+    - name: Pass along change task information
+      set_stats:
+        data:
+          set_change_task: "{{ new_change_task }}"
+        per_host: false
+      delegate_to: localhost
+

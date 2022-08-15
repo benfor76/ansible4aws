@@ -19,7 +19,7 @@
 
     - name: gather running instance information
       ec2_instance_info:
-        region: "{{ region }}"
+        region: "{{ which_region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         filters:
@@ -29,33 +29,25 @@
 
     - name: update Change tasks
       change_request_task:
-        configuration_item: "{{ u_ci }}"
-        change_request_number: "{{ request.record.number }}"
-        type: implementation
         state: closed 
         close_code: "successful"
         close_notes: "closed"
+        number: "{{ set_change_task.record.number }}" 
+      other:
+        u_ec2_public_ip_address: "{{ get_status.instances[0].public_ip_address }}"
 
     - name: update ServiceNow Change Request
       change_request:
-        type: normal
-        short_description: reboot ec2 
-        priority: high
-        risk: moderate
-        impact: low
-        assignment_group: "CAB Approval"
-        state: assess
-        other:
-          cmdb_ci: "{{ enter_ci }}"
-
-      register: request
+        state: review
+        number: "{{ request.record.number }}"
       delegate_to: localhost
 
-    - name: Pass along request information
-      set_stats:
-        data:
-          request: "{{ request }}"
-        per_host: false
+    - name: update ServiceNow Change Request
+      change_request:
+        state: closed
+        number: "{{ request.record.number }}"
+        close_code: "successful"
+        close_notes: "closed"
       delegate_to: localhost
 
     #- name: Send Approval e-mail
@@ -70,28 +62,8 @@
     #    to: "{{ to_email }}"
     #  delegate_to: localhost
 
-    - name: Wait for Change Request approval
-      change_request_info:
-        number: "{{ request.record.number }}"
-      until: change_request_status.records[0].state == "scheduled"
-      retries: 50
-      delay: 10
-      register: change_request_status
+    - name: Update SNOW CMDB
+      servicenow.itsm.configuration_item:
+        name: "{{ enter_ci }}"
+        ip_address: "{{  get_status.instances[0].public_ip_address }}"
       delegate_to: localhost
-
-    - name: Update to implement the change request in ServiceNow
-      change_request:
-        state: implement
-        number: "{{ request.record.number }}"
-        assignment_group: "CAB Approval"
-      delegate_to: localhost
-
-    - name: Add Change tasks
-      change_request_task:
-        configuration_item: "{{ u_ci }}"
-        change_request_number: "{{ request.record.number }}"
-        type: implementation
-        state: in_progress
-        assignment_group: "CAB Approval"
-        short_description: Reboot EC2
-        description: "Reboot EC2"
