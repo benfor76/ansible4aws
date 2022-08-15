@@ -69,7 +69,7 @@
 
     - name: Add Change tasks
       change_request_task:
-        configuration_item: "{{ u_ci }}"
+        configuration_item: "{{ enter_ci }}"
         change_request_number: "{{ request.record.number }}"
         type: implementation
         state: in_progress

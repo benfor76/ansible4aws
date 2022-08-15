@@ -17,7 +17,26 @@
     region: "{{ which_region }}" 
   tasks:
 
-    - name: Create ServiceNow Change Request
+    - name: gather running instance information
+      ec2_instance_info:
+        region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        filters:
+          "private-dns-name": "{{ enter_ci }}"
+      register: get_status
+      tags: gather
+
+    - name: update Change tasks
+      change_request_task:
+        configuration_item: "{{ u_ci }}"
+        change_request_number: "{{ request.record.number }}"
+        type: implementation
+        state: closed 
+        close_code: "successful"
+        close_notes: "closed"
+
+    - name: update ServiceNow Change Request
       change_request:
         type: normal
         short_description: reboot ec2 
