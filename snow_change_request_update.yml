@@ -65,7 +65,7 @@
     - name: Query SNOW CMDB
       servicenow.itsm.configuration_item_info:
         query:
-          - name: = "{{ enter_ci }}" 
+          - name: = {{ enter_ci }}
       register: get_id
 
     - name: Update SNOW CMDB
