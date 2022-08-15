@@ -66,7 +66,17 @@
         number: "{{ request.record.number }}"
         assignment_group: "CAB Approval"
       delegate_to: localhost
-
+    
+    - name: gather running instance information
+      ec2_instance_info:
+        #region: "{{ region }}"
+        aws_access_key: "{{ aws_access_key }}"
+        aws_secret_key: "{{ aws_secret_key }}"
+        filters:
+          "private-dns-name": "{{ enter_ci }}"
+      register: get_status
+      tags: gather
+    
     - name: Add Change tasks
       change_request_task:
         configuration_item: "{{ enter_ci }}"
@@ -76,3 +86,6 @@
         assignment_group: "CAB Approval"
         short_description: Reboot EC2
         description: "Reboot EC2"
+        other: 
+          u_ec2_public_ip_address: "{{ get_status.instances[0].public_ip_address }}"
+        
