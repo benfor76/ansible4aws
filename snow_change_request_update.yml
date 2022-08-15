@@ -62,8 +62,14 @@
     #    to: "{{ to_email }}"
     #  delegate_to: localhost
 
+    - name: Query SNOW CMDB
+      servicenow.itsm.configuration_item_info:
+        query:
+          - name: = "{{ enter_ci }}" 
+        register: get_id
+
     - name: Update SNOW CMDB
       servicenow.itsm.configuration_item:
-        name: "{{ enter_ci }}"
+        sys_id: "{{ get_id.record.sys_id }}"
         ip_address: "{{  get_status.instances[0].public_ip_address }}"
       delegate_to: localhost
