@@ -70,6 +70,8 @@
 
     - name: Update SNOW CMDB
       servicenow.itsm.configuration_item:
-        sys_id: "{{ get_id.record.sys_id }}"
+        name: "{{ enter_ci }}"
+        sys_class_name: cmdb_ci_server
+        #sys_id: "{{ get_id.record.sys_id }}"
         ip_address: "{{  get_status.instances[0].public_ip_address }}"
       delegate_to: localhost
