@@ -29,6 +29,7 @@
         other:
           cmdb_ci: "{{ enter_ci }}"
           u_affected_application: "{{ affected_app }}"
+          u_backout_tested: "{{ backout_tested }}"
       register: request
       delegate_to: localhost
 
