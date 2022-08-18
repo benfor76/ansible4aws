@@ -28,7 +28,7 @@
         state: assess
         other:
           cmdb_ci: "{{ enter_ci }}"
-
+          u_affected_application: "{{ affected_app }}"
       register: request
       delegate_to: localhost
 
