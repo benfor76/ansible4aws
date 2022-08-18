@@ -89,6 +89,7 @@
         description: "Reboot EC2"
         other: 
           u_ec2_public_ip_address: "{{ get_status.instances[0].public_ip_address }}"
+          u_bridge_required: "{{ require_bridge }}"
       register: new_change_task        
     
     - name: Pass along change task information
