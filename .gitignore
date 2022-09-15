@@ -1,3 +1,4 @@
 collections/
 customEE/
 ansible-navigator.yml
+site.yml

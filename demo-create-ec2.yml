@@ -73,8 +73,8 @@
           "tag:stack": "{{ which_env }}"
       register: get_status
       until: get_status.instances | json_query('[*].public_ip_address') | length > 0 
-      retries: 10
-      delay: 2
+      retries: 15
+      delay: 4
       tags: gather
 
     - name: Store EC2 IP Information 
