@@ -4,7 +4,7 @@
   hosts: localhost
   connection: local
   collections:
-    - ansible.builtin
+    #- ansible.builtin
     - ansible.controller
   tasks:
 
