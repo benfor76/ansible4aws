@@ -1,0 +1,21 @@
+---
+
+- name: Demo build the scheduler to run the payload job template
+  hosts: localhost
+  connection: local
+  collections:
+    - ansible.builtin
+    - ansible.controller
+  tasks:
+
+    - name: set the current date from ansible fact as the new date with the correct offset to run job in future 
+      set_fact:
+        new_date_time: "{{ ansible_date_time.year }}-{{ ansible_date_time.month }}-{{ ansible_date_time.day | int + 1 }} 10:00:00"
+
+    - name: Demo Building the Schedule using the ansible_date_time fact using an offset for the start_date paramater
+      schedule:
+        name: Build demo schedule for payload Job template 
+        state: present
+        unified_job_template: EC2-Stop
+        rrule: "{{ query('ansible.controller.schedule_rrule', 'none', start_date=new_date_time, timezone='GMT') }}"
+      tags: build_schedule 
