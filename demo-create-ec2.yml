@@ -46,8 +46,8 @@
     - name: EC2 basic provisioning
       ec2_instance:
         instance_type: t2.micro
-        #image_id: ami-0b0af3577fe5e3532
-        image_id: ami-0ad8ecac8af5fc52b
+        #image_id: ami-0ad8ecac8af5fc52b
+        image_id: ami-06640050dc3f556bb
         count: "{{ how_many | int }}"
         region: "{{ region }}"
         security_groups: "{{ mysg }}"
