@@ -22,6 +22,8 @@
         region: "{{ region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
+        filters:
+          vpc-id: vpc-034c8d3a7593ae0d9
       register: subnetinfo
 
     - name: Gather Security Group information
