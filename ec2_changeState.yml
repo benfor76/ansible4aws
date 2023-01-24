@@ -14,13 +14,13 @@
   vars:
     #Your region
     #region: us-east-1
-    region: "{{ which_region }}"
+    #region: "{{ which_region }}"
 
   tasks:
 
     - name: gather running instance information
       ec2_instance_info:
-        region: "{{ region }}"
+        region: "{{ which_region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         filters:
@@ -41,7 +41,7 @@
 
     - name: Start my lab EC2 instances
       ec2_instance:
-        region: "{{ region }}"
+        region: "{{ which_region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         instance_ids: "{{ item.instance_id }}"
@@ -56,7 +56,7 @@
 
     - name: Stop my lab EC2 instances
       ec2_instance:
-        region: "{{ region }}"
+        region: "{{ which_region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         instance_ids: "{{ item.instance_id }}"
@@ -70,7 +70,7 @@
 
     - name: gather running instance information upon start
       ec2_instance_info:
-        region: "{{ region }}"
+        region: "{{ which_region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         filters:

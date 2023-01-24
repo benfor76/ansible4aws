@@ -12,14 +12,14 @@
   vars:
     #Your region
     #region: us-east-1
-    region: "{{ which_region }}" 
+    #region: "{{ which_region }}" 
     #sgname: AA-Lab
     #sgname: "{{ which_security_group }}" 
   tasks:
 
     - name: Gather VPC info
       ec2_vpc_subnet_info:
-        region: "{{ region }}"
+        region: "{{ which_region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         filters:
@@ -35,7 +35,7 @@
 
     - name: Gather Security Group information
       ec2_security_group_info:
-        region: "{{ region }}"
+        region: "{{ which_region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         filters:
@@ -60,7 +60,7 @@
         #image_id: ami-0ad8ecac8af5fc52b
         image_id: ami-06640050dc3f556bb
         count: "{{ how_many | int }}"
-        region: "{{ region }}"
+        region: "{{ which_region }}"
         security_groups: "{{ mysg }}"
         vpc_subnet_id: "{{ mysubnet }}"
         key_name:  ben-lab-kp
@@ -77,7 +77,7 @@
 
     - name: gather running instance information
       ec2_instance_info:
-        region: "{{ region }}"
+        region: "{{ which_region }}"
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         filters:
