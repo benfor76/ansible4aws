@@ -63,7 +63,7 @@
         region: "{{ region }}"
         security_groups: "{{ mysg }}"
         vpc_subnet_id: "{{ mysubnet }}"
-        key_name: aap-mesh-ec2-eu
+        key_name:  ben-lab-kp
         network:
           assign_public_ip: yes
         state: present
