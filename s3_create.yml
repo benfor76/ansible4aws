@@ -4,7 +4,7 @@
   hosts: localhost
   gather_facts: no
   connection: local
-#  vars_files: 
+##  vars_files: 
 #    - credentials.yml
   vars:
     ignore_nonexistent_bucket: true
