@@ -18,7 +18,7 @@
 
     - name: create an S3 bucket
       amazon.aws.s3_bucket:
-        name: bentestansibles31978 
+        name: bentestansibles31976 
         state: present
         region: us-east-1 
         aws_access_key: "{{ aws_access_key }}"
