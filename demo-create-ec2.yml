@@ -39,7 +39,7 @@
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         filters:
-          vpc-id: vpc-01762a47d2a735060
+          vpc-id: vpc-0da01941d9a2294e8
       register: sginfo
 
     - name: Store vpc subnet fact
@@ -63,7 +63,7 @@
         region: "{{ which_region }}"
         security_groups: "{{ mysg }}"
         vpc_subnet_id: "{{ mysubnet }}"
-        key_name: ben-q3-2023
+        key_name: ben-aws-lab-redo
         network:
           assign_public_ip: yes
         state: present
