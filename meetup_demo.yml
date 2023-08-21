@@ -1,0 +1,20 @@
+---
+- name: Show vars being passed in from ServiceNow
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Print the vars passed in from ServiceNow
+      ansible.builtin.debug:
+        msg:
+          - "Name Provided from ServiceNow was {{ requester_name }}"
+          - "Email provided was {{ requester_email }}"
+          - "AWS Region provided was {{ which_region }}"
+          - "Number of EC2 instances provided from ServiceNow was {{ how_many }}"
+          - "Subnet provided from ServiceNow was {{ mysubnet }}"
+          - "Tag variable provided from ServiceNow was {{ which_env }}"
+          - "Scheduled stop time from ServiceNow was {{ stop_date_time }}"
+          - "Scheduled start time from ServiceNow was {{ start_date_time }}"
+          - "Ticket number provided from ServiceNow was {{ ticket_number }}"
+          - "Job run frequency provided from ServiceNow was {{ repitition }}"
+          - "Whether the job runs weekly, monthly, daily, hourly, etc was provided from ServiceNow by the {{ frequency }} var"
