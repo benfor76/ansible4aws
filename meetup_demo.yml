@@ -16,5 +16,5 @@
           - "Scheduled stop time from ServiceNow was {{ stop_date_time }}"
           - "Scheduled start time from ServiceNow was {{ start_date_time }}"
           - "Ticket number provided from ServiceNow was {{ ticket_number }}"
-          #- "Job run frequency provided from ServiceNow was {{ repitition }}"
+          - "Job run frequency provided from ServiceNow was {{ repetition }}"
           - "Whether the job runs weekly, monthly, daily, hourly, etc was provided from ServiceNow by the {{ frequency }} var"
