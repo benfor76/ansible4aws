@@ -1,0 +1,45 @@
+---
+- name: Update RHEL 8 Image
+  hosts: localhost 
+  become: true
+  tasks:
+
+    - name: Remove yum.repos.d
+      ansible.builtin.file:
+        name: /etc/yum.repos.d/
+        state: absent
+
+    - name: Copy yum.repos.d from tmp
+      ansible.builtin.copy:
+        src: /tmp/rhel-8.repo
+        dest: /etc/yum.repos.d/
+    
+    - name: Add exectute bit to owner for the add-google-cloud-ops-agent-repo.sh file
+      ansible.builtin.file:
+        name: /tmp/add-google-cloud-ops-agent-repo.sh
+        state: touch
+        owner: root
+        group: root
+        mode: '0700'
+
+    - name: Copy linux_config.yaml from /tmp to /etc/google-cloud-ops-agent folder
+      ansible.builtin.copy:
+        src: /tmp/linux_config.yaml
+        dest: /etc/google-cloud-ops-agent/config.yml
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: dnf install the latest version of wget, yum-utils, and unzip
+      ansible.builtin.dnf:
+        name:
+          - wget
+          - curl
+          - unzip
+        state: latest
+
+    - name: Create a GCP Instance using the google.cloud collection
+      google.
+    
+
+

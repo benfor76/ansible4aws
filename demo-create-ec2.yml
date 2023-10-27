@@ -23,7 +23,7 @@
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         filters:
-          vpc-id: vpc-01762a47d2a735060
+          vpc-id: vpc-0407c6170cf5ed8b6
       register: subnetinfo
 
     #- name: Gather Security Group information
@@ -39,7 +39,7 @@
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         filters:
-          vpc-id: vpc-0da01941d9a2294e8
+          vpc-id: vpc-0407c6170cf5ed8b6
       register: sginfo
 
     - name: Store vpc subnet fact
