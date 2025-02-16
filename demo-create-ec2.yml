@@ -23,7 +23,7 @@
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         filters:
-          vpc-id: vpc-0407c6170cf5ed8b6
+          vpc-id: vpc-03f0aa053ce57e397
       register: subnetinfo
 
     #- name: Gather Security Group information
@@ -39,7 +39,7 @@
         aws_access_key: "{{ aws_access_key }}"
         aws_secret_key: "{{ aws_secret_key }}"
         filters:
-          vpc-id: vpc-0407c6170cf5ed8b6
+          vpc-id: vpc-03f0aa053ce57e397
       register: sginfo
 
     - name: Store vpc subnet fact
@@ -58,12 +58,13 @@
       ec2_instance:
         instance_type: t2.micro
         #image_id: ami-0ad8ecac8af5fc52b
-        image_id: ami-06640050dc3f556bb
+        #image_id: ami-06640050dc3f556bb
+        image_id: ami-0dd44c5801dbb2c09
         count: "{{ how_many | int }}"
         region: "{{ which_region }}"
         security_groups: "{{ mysg }}"
         vpc_subnet_id: "{{ mysubnet }}"
-        key_name: ben-aws-lab-10-24-23
+        key_name: Ben-AAP25-Keys
         network:
           assign_public_ip: yes
         state: present
