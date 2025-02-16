@@ -59,7 +59,7 @@
         instance_type: t2.micro
         #image_id: ami-0ad8ecac8af5fc52b
         #image_id: ami-06640050dc3f556bb
-        image_id: ami-0dd44c5801dbb2c09
+        image_id: ami-0720ac433acf46f73
         count: "{{ how_many | int }}"
         region: "{{ which_region }}"
         security_groups: "{{ mysg }}"
