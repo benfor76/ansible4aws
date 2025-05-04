@@ -7,6 +7,7 @@
     - credentials.yml
   vars:
     #East Region us-east-1
+    #Test comment
     region: us-east-1
     #Your IP address
     allowed_ip: "{{ my_IP }}/{{ my_CIDR }}"

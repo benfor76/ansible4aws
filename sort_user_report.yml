@@ -1,0 +1,46 @@
+---
+- name: Sort users by last name
+  hosts: all
+  tasks:
+    - name: Read users.txt
+      ansible.windows.slurp:
+        src: C:\Users\devops\Desktop\users.txt
+      register: users_content
+    
+    - name: Process user names
+      ansible.builtin.set_fact:
+        users_list: "{{ users_content['content'] | b64decode | split('\n') | map('trim') | list }}"
+
+    - name: Print User List
+      ansible.builtin.debug:
+        var: users_list
+
+    - name: Sort users by last name
+      ansible.builtin.set_fact:
+        sorted_users: "{{ users_list | map('split', ' ') | sort(attribute=1) | map('join', ' ') | list }}"
+
+    - name: Print User List
+      ansible.builtin.debug:
+        var: sorted_users
+
+    - name: Categorize user into lists
+      ansible.builtin.set_fact:
+        list_a_f: "{{ sorted_users | selectattr('1', 'search', '^[A-Fa-f]') | map('join', '') | list }}"
+        list_g_r: "{{ sorted_users | selectattr('1', 'search', '^[G-Rg-r]') | map('join', '') | list }}"
+        list_s_z: "{{ sorted_users | selectattr('1', 'search', '^[S-Zs-z]') | map('join', '') | list }}"
+
+    - name: Display categorized users 
+      ansible.builtin.debug:
+        msg: 
+          -  "Last names A-F: {{ list_a_f }}"
+          -  "Last names G-R: {{ list_g_r }}"
+          -  "Last names S-Z: {{ list_s_z }}"
+    
+    - name: Create initials-last list
+      ansible.builtin.set_fact:
+        initials_last_list: "{{ sorted_users | map('regex_replace', '^(\\w)\\w* (.*)$', '\\1\\2') | map('lower') | list }}"
+
+    - name: Display user id's
+      ansible.builtin.debug:
+        msg: 
+          - "UserId: {{ initials_last_list }}"

@@ -1,7 +1,7 @@
 ---
 ansible-navigator:
   execution-environment:
-    image: pah.thatcigardude.com/aws-snow-meetup:v1.1
+    image: pah.thatcigardude.com/aws-snow-meetup:v2.0
     pull:
       policy: missing
   playbook-artifact:

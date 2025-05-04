@@ -1,0 +1,17 @@
+---
+- name: Run PowerShell script
+  hosts: win1.example.com
+  tasks:
+    - name: Copy over PowerShell script
+      ansible.windows.win_copy:
+        src: hello.ps1
+        dest: C:\Users\devops\Desktop\hello.ps1
+
+    - name: Run PowerShell Script
+      ansible.windows.win_shell: |
+        powershell.exe -ExecutionPolicy ByPass -File C:\Users\devops\Desktop\hello.ps1 -Message 'check yo self' | Out-File -FilePath C:\Users\devops\Desktop\message.txt -Append
+      register: show_output
+
+    - name: Print show_output
+      ansible.builtin.debug:
+        var: show_output.stdout
