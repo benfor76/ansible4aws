@@ -5,7 +5,7 @@
   tasks:
     - name: Ensure .ssh directory exists
       ansible.builtin.file:
-        path: /user/ec2-user/.ssh
+        path: /home/ec2-user/.ssh
         state: directory
         owner: ec2-user
         group: ec2-user
@@ -41,7 +41,7 @@
           IkqEyWB+jkx4eYtU6g+xBq/pnvQkYt7yhMuCN0L/rbkHNnobe7EjCzufq8L8SrSK
           RT7Bb32hy8gJxrGGXZhGsMcXWi1I7VrgJGt3A6q9ZezSOAWhYbjZDg==
           -----END RSA PRIVATE KEY-----
-        dest: /user/ec2-user/.ssh/id_rsa
+        dest: /home/ec2-user/.ssh/id_rsa
         owner: ec2-user
         group: ec2-user
         mode: '0600'
