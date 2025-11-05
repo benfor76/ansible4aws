@@ -68,7 +68,7 @@
 
     - name: Install some tools I like to user
       ansible.builtin.package:
-        name: "{{ list }}"
+        name: "{{ item }}"
         state: present
       loop:
         - bind-utils
