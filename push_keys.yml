@@ -48,7 +48,12 @@
         mode: '0600'
         validate: 'ssh-keygen -l -f %s'
 
-      # First, securely accept the host key for new instances
+      # First, securely accept- name: Add your public key to the ec2-user's authorized_keys
+      ansible.builtin.authorized_key:
+        user: "{{ ssh_username }}"  # Comes from the credential
+        state: present
+        key: "{{ public_ssh_key }}"  # Comes from the credential
+      delegate_to: "{{ inventory_hostname }}" the host key for new instances
     - name: Accept new host keys and add to known_hosts
       ansible.builtin.shell:
         cmd: "ssh-keyscan -H {{ inventory_hostname }} >> ~/.ssh/known_hosts"
