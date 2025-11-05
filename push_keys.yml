@@ -65,3 +65,26 @@
         state: present
         key: "{{ public_ssh_key }}"  # Comes from the credential
       delegate_to: "{{ inventory_hostname }}"
+
+    - name: Install some tools I like to user
+      ansible.builtin.package:
+        name: "{{ list }}"
+        state: present
+      loop:
+        - bind-utils
+        - telnet
+
+    - name: Disable EPEL repository
+      ansible.builtin.dnf:
+        name: epel
+        state: disabled
+      ignore_errors: yes  # Proceeds if EPEL repo is not present
+
+    - name: Register systems
+      roles: redhat.rhel_system_roles.rhc
+      vars:
+        rhc_auth:
+          login:
+            username: "bforrest@redhat.com"
+            password: "EBf2009$#"
+          
