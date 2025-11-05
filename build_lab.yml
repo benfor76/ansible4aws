@@ -73,6 +73,7 @@
       loop:
         - bind-utils
         - telnet
+        - tree
 
     - name: Disable EPEL repository
       ansible.builtin.dnf:
