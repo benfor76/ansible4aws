@@ -81,7 +81,8 @@
       ignore_errors: yes  # Proceeds if EPEL repo is not present
 
     - name: Register systems
-      roles: redhat.rhel_system_roles.rhc
+      include_role: 
+        name: redhat.rhel_system_roles.rhc
       vars:
         rhc_auth:
           login:
