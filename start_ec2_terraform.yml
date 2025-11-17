@@ -1,0 +1,33 @@
+---
+- name: "Change EC2 state to start in HCP Terraform"
+  hosts: localhost
+  collections:
+    - cloud.terraform
+  vars:
+    operation: "start"  # default, but can be overridden
+  tasks:
+    - name: "Trigger a run in HCP Terraform with variable operation=start"
+      terraform:
+        workspace_id: "ws-JSabWAPzsDbDnpm9"
+        state: "planned"
+        variables:
+          operation: "start"
+      register: tf_run
+      tags: start
+
+    - name: "Trigger a run in HCP Terraform with variable operation=stop"
+      terraform:
+        workspace_id: "ws-JSabWAPzsDbDnpm9"
+        state: "planned"
+        variables:
+          operation: "stop"
+      register: tf_run
+      tags: stop
+
+    - name: "Wait for the run to complete"
+      terraform:
+        workspace_id: "ws-JSabWAPzsDbDnpm9"
+        run_id: "{{ tf_run.run_id }}"
+        state: "applied"
+      async: 1800   # Adjust the timeout as needed (in seconds)
+      poll: 5       # Poll every 5 seconds

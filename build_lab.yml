@@ -12,42 +12,6 @@
         group: ec2-user
         mode: '0700'
 
-    - name: Deploy private key
-      ansible.builtin.copy:
-        content: |
-          -----BEGIN RSA PRIVATE KEY-----
-          MIIEpAIBAAKCAQEAvJuvOmwgkuDFCHYnwHwL9jYiE3nosieYrEEhoRqNWYoJPn5F
-          V4esJTER3tIBoGhEE+ptZOgPJimd0wky4Il80v6tkixeqlz3hcuZ2vpjn5FwedvD
-          ZUXJmZA7+iRxEdnLY6XFHZMhwPZfST0HhLtb4cjSmhxSWCLkKgebG1KEbKkEl1gL
-          Dy7yE0A/SBgd/v4cRIi7aINkyUqYW4JRU3hoCdQlPCRKeuzYvrmy+MPHFTxaoMwE
-          ZHi40c62RufP6v57inZ/3+r4a9MS9DsQ7Nwig/7p7dRobijL74l6VbOqaOVoypvL
-          U2XzzOJPwk1jvYHbK73DDfsF7PMPNHsPtW++PQIDAQABAoIBAQCJRzO6bTskTO98
-          oit64Y7/TRVuYZwqF8H7Foj4rs/VLTBfSR8Ff52fkGC2ctp2O43ZhRbMjE+CcmYK
-          VbavUcMF/BKvwxXAIFyVCMVaakcavIxGVduZmbsLx7yv69hUqtZsGBsp1I6L2Ycv
-          UnlndcuBwl7vhs+0kOjLYq/VqjDyuKxyStREQdQ2z80ErXKa/wcj2Cm9T0SdO0Dn
-          YkolUqqEy4X2BmkFZxiP8f3tzU/nZgKfwG2MFIdU5MWF3OXEeOPH9d0MVr4XjyAE
-          K5tHLgHptRvd8ksT64SuTjlObipHAqy+GPiTsduU6vV/jga03PkIHuF9MXGy3KK3
-          DYOA70kNAoGBAPhw1nYSrWcbo555DRqYq+SMkZ8sdWFsejtOiyBuFJxZVGpNr/4F
-          JFxGqsA/36xdupcEG4JMp/1VKrO73u27boigVmHiKWlDMXLuj6nlJL1FshaMnCuj
-          /gxAV2rSMZVFEsChCNIIQYSpbdMemPtRC4gOxkjolizjCv6KUB4L8n63AoGBAMJY
-          y/DcCV4j/VESerGxli0etHkx9FbFJl7Zt6KLcwGD/10nsbc2Hdmiwj3dB48MYJpO
-          LGdXpFH3+qSzq2mf9HTOoMkHZrrTkoUZ0uIiVYFVo9mdmwt5L0fMExoRDdLt4b0j
-          DhbQAUUFdnAqEy79Oh2RhcYK3cs097YjyyIvmbarAoGBAOHW+S1WJyk+l8r8MWxG
-          8qMNIWc3q/CHAsocyR4O00+ZaMJFosFgfUAgwSGILtTqUy7qffNBqcgBfpLqKmmj
-          Y4RxdHUAeTKF8VKQCCqh8XbY/12+Lk0Bg3QxnQWu04Hky3ouKO18scpdlkc/XkO+
-          1aO2AovOWo2tSpY+tzvJEoQbAoGAKzctmlCDcMCV+qoeSFcR6tSSEwUNrSHHx32o
-          POe/Wg3tAdzqwq+w8Y0knjcBEEkTThyl+RDfBC8dN/SP4DvmUvcDf9A6gr67LQey
-          AgDafJj7h09pg6Kd5dw2Pyydo1KsSK972YzFS4DMdmKUw3UhsCOE2KXf7ejIUGMj
-          L2XgS2MCgYAhbjanWuNYa8hl2y2LmyZzGRjtikdW3gQYjVXNaiHwVusAB9Td3X+G
-          IkqEyWB+jkx4eYtU6g+xBq/pnvQkYt7yhMuCN0L/rbkHNnobe7EjCzufq8L8SrSK
-          RT7Bb32hy8gJxrGGXZhGsMcXWi1I7VrgJGt3A6q9ZezSOAWhYbjZDg==
-          -----END RSA PRIVATE KEY-----
-        dest: /home/ec2-user/.ssh/id_rsa
-        owner: ec2-user
-        group: ec2-user
-        mode: '0600'
-        validate: 'ssh-keygen -l -f %s'
-
     - name: Accept new host keys and add to known_hosts
       ansible.builtin.shell:
         cmd: "ssh-keyscan -H {{ inventory_hostname }} >> ~/.ssh/known_hosts"
