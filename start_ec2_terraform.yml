@@ -10,7 +10,7 @@
       terraform:
         workspace_id: "ws-JSabWAPzsDbDnpm9"
         project_path: ""
-        state: "planned"
+        state: "present"
         variables:
           operation: "start"
       register: tf_run
@@ -20,7 +20,7 @@
       terraform:
         workspace_id: "ws-JSabWAPzsDbDnpm9"
         project_path: ""
-        state: "planned"
+        state: "present"
         variables:
           operation: "stop"
       register: tf_run
