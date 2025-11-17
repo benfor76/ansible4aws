@@ -9,6 +9,7 @@
     - name: "Trigger a run in HCP Terraform with variable operation=start"
       terraform:
         workspace_id: "ws-JSabWAPzsDbDnpm9"
+        project_path: ""
         state: "planned"
         variables:
           operation: "start"
@@ -18,6 +19,7 @@
     - name: "Trigger a run in HCP Terraform with variable operation=stop"
       terraform:
         workspace_id: "ws-JSabWAPzsDbDnpm9"
+        project_path: ""
         state: "planned"
         variables:
           operation: "stop"
