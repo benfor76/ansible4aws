@@ -1,0 +1,20 @@
+---
+- name: "Change EC2 state to start in HCP Terraform"
+  hosts: localhost
+  collections:
+    - hashicorp.terraform
+  vars:
+    operation: "start"  # default, but can be overridden
+  tasks:
+    - name: "Trigger a run in HCP Terraform with variable operation=start"
+      run:
+        workspace: "stop-ben-lab"
+        organization: "Shadowman"
+        run_message: "stop EC2 State"
+        tf_token: "{{ hcpterraform_api_token }}"
+        auto_apply: true
+        poll: true
+        poll_interval: 5
+        poll_timeout: 120
+      register: tf_run
+      tags: stop

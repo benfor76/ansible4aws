@@ -9,7 +9,6 @@
     - name: "Trigger a run in HCP Terraform with variable operation=start"
       run:
         workspace: "start-ben-lab"
-        #workspace_id: "ws-rPGVqsqsBNhXHctA"
         organization: "Shadowman"
         run_message: "start EC2 State"
         tf_token: "{{ hcpterraform_api_token }}"
