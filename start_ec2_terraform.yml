@@ -8,7 +8,7 @@
   tasks:
     - name: "Trigger a run in HCP Terraform with variable operation=start"
       run:
-        workspace: "ws-rPGVqsqsBNhXHctA"
+        workspace_id: "ws-rPGVqsqsBNhXHctA"
         organization: "Shadowman"
         run_message: "start EC2 State"
         tf_token: "{{ hcpterraform_api_token }}"
@@ -18,7 +18,7 @@
 
     - name: "Trigger a run in HCP Terraform with variable operation=stop"
       run:
-        workspace: "ws-JSabWAPzsDbDnpm9"
+        workspace_id: "ws-JSabWAPzsDbDnpm9"
         organization: "Shadowman"
         run_message: "Change EC2 State"
         auto_apply: true
