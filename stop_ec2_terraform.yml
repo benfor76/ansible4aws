@@ -15,6 +15,6 @@
         auto_apply: true
         poll: true
         poll_interval: 5
-        poll_timeout: 120
+        poll_timeout: 300
       register: tf_run
       tags: stop
