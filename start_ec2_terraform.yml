@@ -8,6 +8,7 @@
   tasks:
     - name: "Trigger a run in HCP Terraform with variable operation=start"
       run:
+        workspace: "start-ben-lab"
         workspace_id: "ws-rPGVqsqsBNhXHctA"
         organization: "Shadowman"
         run_message: "start EC2 State"
@@ -18,6 +19,7 @@
 
     - name: "Trigger a run in HCP Terraform with variable operation=stop"
       run:
+        workspace: "start-ben-lab"
         workspace_id: "ws-JSabWAPzsDbDnpm9"
         organization: "Shadowman"
         run_message: "Change EC2 State"
