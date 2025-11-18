@@ -6,7 +6,7 @@
   vars:
     operation: "start"  # default, but can be overridden
   tasks:
-    - name: "Trigger a run in HCP Terraform with variable operation=start"
+    - name: "Trigger a run in HCP Terraform with variable operation=stop"
       run:
         workspace: "stop-ben-lab"
         organization: "Shadowman"
