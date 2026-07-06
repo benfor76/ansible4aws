@@ -1,0 +1,112 @@
+---
+- name: Dynamic AWS EC2 Provisioning with Elastic IP and Gmail Notifications
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    # 1. Hardcoded Instance Type Requirement
+    instance_type: "t2.micro"
+
+    # 2. Variable placeholders (Overridden by AAP Survey / Extra Vars)
+    aws_region: "us-east-1"
+    rhel_version: "9"
+    key_pair: ""                 # e.g., "my-prod-ssh-key"
+    security_group: ""
+    subnet_id: ""
+    environment: ""              # e.g., "Development", "Staging", "Production"
+
+    # 3. Refactored Gmail SMTP Configurations
+    smtp_host: "smtp.gmail.com"
+    smtp_port: 587
+    smtp_username: "{{ my_gmail_id }}"" # Overwrite via AAP
+    smtp_password: "{{ my_gmail_pw }}"
+    email_from: "{{ my_gmail_id }}"
+    email_to: ""                                             # Target recipient
+
+  vars_files: 
+    - credentials.yml
+
+  tasks:
+    - name: Query official Red Hat Linux AMIs
+      amazon.aws.ec2_ami_info:
+        region: "{{ aws_region }}"
+        owners: "309956199498"   # Red Hat's official verified AWS Account ID
+        filters:
+          name: "RHEL-{{ rhel_version }}*_HVM-*-x86_64-*"
+          architecture: "x86_64"
+          state: "available"
+      register: rhel_amis
+
+    - name: Validate that matching AMIs were returned
+      ansible.builtin.fail:
+        msg: "No active RHEL {{ rhel_version }} AMIs found in region {{ aws_region }}."
+      when: rhel_amis.images | length == 0
+
+    - name: Determine the latest available image dynamically
+      ansible.builtin.set_fact:
+        dynamic_image_id: "{{ (rhel_amis.images | sort(attribute='creation_date') | last).image_id }}"
+
+    - name: Launch the dynamic EC2 Instance with Environment Tag
+      amazon.aws.ec2_instance:
+        region: "{{ aws_region }}"
+        instance_type: "{{ instance_type }}"
+        image_id: "{{ dynamic_image_id }}"
+        key_name: "{{ key_pair }}"
+        security_groups: "{{ security_group }}"
+        vpc_subnet_id: "{{ subnet_id }}"
+        state: running
+        wait: true
+        tags:
+          Environment: "{{ environment }}"
+          Name: "RHEL-{{ rhel_version }}-{{ environment }}"
+      register: ec2_deployment
+
+    - name: Allocate and Associate Public Elastic IP (EIP)
+      amazon.aws.ec2_eip:
+        region: "{{ aws_region }}"
+        instance_id: "{{ ec2_deployment.instances[0].instance_id }}"
+        state: present
+        release_on_disassociation: true
+      register: eip_details
+
+    - name: Gather updated Instance Facts to capture Public DNS
+      amazon.aws.ec2_instance_info:
+        region: "{{ aws_region }}"
+        instance_ids:
+          - "{{ ec2_deployment.instances[0].instance_id }}"
+      register: updated_instance_facts
+
+    - name: Send deployment confirmation email via Gmail SMTP
+      ansible.builtin.mail:
+        host: "{{ smtp_host }}"
+        port: "{{ smtp_port }}"
+        username: "{{ smtp_username }}"
+        password: "{{ smtp_password }}"
+        secure: starttls   # Enforced by Gmail for Port 587
+        from: "{{ email_from }}"
+        to: "{{ email_to }}"
+        subject: "Provisioning Complete: EC2 RHEL {{ rhel_version }} [{{ environment }}]"
+        body: |
+          Hello,
+
+          Your requested Red Hat Enterprise Linux instance has been successfully provisioned.
+
+          Deployment Metadata:
+          --------------------------------------------
+          Environment:        {{ environment }}
+          Instance ID:        {{ ec2_deployment.instances[0].instance_id }}
+          Allocated EIP:      {{ eip_details.public_ip }}
+          Public DNS Name:    {{ updated_instance_facts.instances[0].public_dns_name }}
+          Target Region:      {{ aws_region }}
+
+          Access Credentials & Connection:
+          --------------------------------------------
+          Required SSH Key Name:  {{ key_pair }}.pem
+          Default Username:       ec2-user
+
+          To connect via SSH, execute:
+          ssh -i "/path/to/{{ key_pair }}.pem" ec2-user@{{ eip_details.public_ip }}
+
+          Regards,
+          Ansible Automation Platform
+      delegate_to: localhost
