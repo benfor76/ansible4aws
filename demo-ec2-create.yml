@@ -21,7 +21,7 @@
     smtp_username: "{{ my_gmail_id }}"" # Overwrite via AAP
     smtp_password: "{{ my_gmail_pw }}"
     email_from: "{{ my_gmail_id }}"
-    email_to: ""                                             # Target recipient
+    email_to: "{{ requester_email }}"                                            # Target recipient
 
   vars_files: 
     - credentials.yml
@@ -87,7 +87,7 @@
         to: "{{ email_to }}"
         subject: "Provisioning Complete: EC2 RHEL {{ rhel_version }} [{{ environment }}]"
         body: |
-          Hello,
+          Hello {{ requester_name }},
 
           Your requested Red Hat Enterprise Linux instance has been successfully provisioned.
 
