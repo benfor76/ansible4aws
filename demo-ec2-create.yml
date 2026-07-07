@@ -18,7 +18,7 @@
     # 3. Refactored Gmail SMTP Configurations
     smtp_host: "smtp.gmail.com"
     smtp_port: 587
-    smtp_username: "{{ my_gmail_id }}"" # Overwrite via AAP
+    smtp_username: "{{ my_gmail_id }}" # Overwrite via AAP
     smtp_password: "{{ my_gmail_pw }}"
     email_from: "{{ my_gmail_id }}"
     email_to: "{{ requester_email }}"                                            # Target recipient
