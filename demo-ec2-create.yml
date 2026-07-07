@@ -52,7 +52,7 @@
         instance_type: "{{ instance_type }}"
         image_id: "{{ dynamic_image_id }}"
         key_name: "{{ key_pair }}"
-        security_groups: "{{ security_group }}"
+        security_group: "{{ security_group }}"
         vpc_subnet_id: "{{ subnet_id }}"
         state: running
         wait: true
